@@ -201,20 +201,9 @@ struct Room newRoom(int id, int connd, struct User user)
 void printListQues(){
 	int i;
 	printf("Easy list :\n");
-	for (i = 0; i < QUES_IN_LEVER; i++){
-		printf("easyList[%d] : %d\n",i, easyList[i]);
+	for (i = 0; i < QUES_NUMBER; i++){
+		printf("%s\n%s\n%s\n%s\n%s\n%c\n", questionList[i].content, questionList[i].choiceA, questionList[i].choiceB, questionList[i].choiceC, questionList[i].choiceD, questionList[i].answer);
 	}
-	printf("\n");
-	printf("medium list :\n");
-	for (i = 0; i < QUES_IN_LEVER; i++){
-		printf("mediumList[%d] : %d\n", i, mediumList[i]);
-	}
-	printf("\n");
-	printf("hard list :\n");
-	for (i = 0; i < QUES_IN_LEVER; i++){
-		printf("hardList[%d] : %d\n",i, hardList[i]);
-	}
-	printf("\n");
 }
 
 //
@@ -681,6 +670,8 @@ Question getQuestion(int pos)
 			break;		
 	}
 	// question = questionList[random -1];
+	printListQues();
+	printf("questionList[random -1].content:%s\n",questionList[random -1].content );
 	return questionList[random -1];
 }
 
@@ -706,7 +697,6 @@ char *answQuickCodeProcess(char messAcgument[], int pos)
 		//todo cho client lang nghe lien
 		return C_A_QQ_INCORRECT;
 	}
-	
 }
 
 //Process while Code is ANSW --main
@@ -922,7 +912,22 @@ void changeFull(char message[])
 		strcat(message, " -> user incorrect");
 	} else if (strcmp(message, C_FOUND_PASSWORD) == 0)
 	{
-		strcat(message, " -> password ok");
+		strcat(message, " -> password ok\n");
+		if (countRoom > 0){
+			strcat(message, "List room :");
+			for (int i = 0; i < countRoom; ++i)
+			{
+				strcat(message, "\nRoom id :");
+				char str[10];
+				sprintf(str, "%d",rooms[i].id);
+				strcat(message, str);
+				strcat(message, "\tPeople count : ");
+				sprintf(str, "%d",rooms[i].countUser);
+				strcat(message, str);
+			}
+		} else {
+			strcat(message, "No rooms were created!");
+		}
 	} else if (strcmp(message, C_NOT_FOUND_PASSWORD) == 0)
 	{
 		strcat(message, " -> password incorrect , login fails");
