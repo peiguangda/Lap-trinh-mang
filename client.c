@@ -30,7 +30,8 @@
 #define C_A_CORRECT "04"
 #define C_A_INCORRECT "05"
 #define C_HELP_50_OK "14"
-#define C_HELP_50_NOT_OK "15"
+#define C_HELP_ADVISORY_OK "15"
+#define C_HELP_NOT_OK "16"
 #define C_STOP_OK "24"
 #define C_STOP_NOT_OK "25"
 #define C_CRE_ROOM_SUC "34"
@@ -154,6 +155,10 @@ char *makeFull(char respond[])
 	if (strcmp(respond, C_WAIT) == 0)
 	{
 		return "Main players lose, waiting for new owners start command room!";
+	}
+	if (strcmp(respond, C_HELP_NOT_OK) == 0)
+	{
+		return "Can't use this feature";
 	}
 	else
 		return respond;
