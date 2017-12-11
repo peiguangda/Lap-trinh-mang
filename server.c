@@ -25,6 +25,7 @@
 #define STAR "STAR"
 #define STOP "STOP"
 #define CRRM "CRRM" //create room
+#define LEAV "LEAV" 
 
 #define C_FOUND_ID "00"
 #define C_NOT_FOUND_ID "01"
@@ -471,6 +472,29 @@ int findRoomById(int id)
 		}
 	}
 	return -1;
+}
+
+//remove session
+void removeRoom(int k)
+{
+	int i;
+	for (i = k; i < countRoom ; ++i)
+	{
+		rooms[k] = rooms[k+1];
+	}
+	countRoom--;
+}
+
+void checkListRoom()
+{
+	for (int i = 0; i < countRoom; ++i)
+	{
+		if (rooms[i].countUser <= 0)
+		{
+			printf("remove room:%d\n", i);
+			removeRoom(i);
+		}
+	}
 }
 
 int checkPass(char pass[]){
@@ -1087,6 +1111,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	int pos,  posSign, i;
 	pos = findSessByAddr(cliAddr, connd); //find Session return -1 if session not exists
 	posSign = findSessSignByAddr(cliAddr, connd);
+	checkListRoom();
 
 	/***********messcode is USER***********/
 	if (strcmp(messCode, USER) == 0 ){
