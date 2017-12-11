@@ -37,7 +37,11 @@
 #define C_CRE_ROOM_FAI "35"
 #define C_YOU_WIN "45"
 #define C_YOU_LOSE "44"
-#define C_YOU_LOSE_KEY_ROOM "43"
+#define C_YOU_LOSE_1 "100"
+#define C_YOU_LOSE_2 "200"
+#define C_YOU_LOSE_3 "300"
+#define C_YOU_IS_KEY "101"
+#define C_WAIT "102"
 
 #define BLOCKED 0
 #define ACTIVE 1
@@ -63,7 +67,7 @@ int receive(int client_sock, char respond[])
 
 char *makeFull(char respond[])
 {
-	if (strcmp(respond, "C_IN_ROOM") == 0)
+	if (strcmp(respond, C_IN_ROOM) == 0)
 	{
 		return "In room successfully, please wait until all the room signaled the start command!";
 	}
@@ -131,6 +135,26 @@ char *makeFull(char respond[])
 	{
 		return "Regrettably, you have to stop the game here to give way to other players!";
 	}
+	if (strcmp(respond, C_YOU_LOSE_1) == 0)
+	{
+		return "Regrettably, You have to leave with a bonus of 0 VND!";
+	}
+	if (strcmp(respond, C_YOU_LOSE_2) == 0)
+	{
+		return "Regrettably, You have to leave with a bonus of 5.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_LOSE_3) == 0)
+	{
+		return "Regrettably, You have to leave with a bonus of 20.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_IS_KEY) == 0)
+	{
+		return "The main player loses, you become the master of the room!";
+	}
+	if (strcmp(respond, C_WAIT) == 0)
+	{
+		return "Main players lose, waiting for new owners start command room!";
+	}
 	else
 		return respond;
 }
@@ -181,7 +205,7 @@ int main(int argc, char const *argv[])
 		} else { 
 			printf("\nRespond from server:\n%s\n", makeFull(respond));
 			printf("\n-----------------------------------------------\n");
-			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 || strcmp(respond, C_YOU_LOSE) == 0)
+			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 || strcmp(respond, C_WAIT) == 0)
 			{
 				if (!receive(client_sock, respond)){
 					printf("message receive fails\n");

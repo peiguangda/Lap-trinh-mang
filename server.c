@@ -55,7 +55,11 @@
 #define C_CRE_ROOM_FAI "35"
 #define C_YOU_WIN "45"
 #define C_YOU_LOSE "44"
-#define C_YOU_LOSE_KEY_ROOM "43"
+#define C_YOU_LOSE_1 "100"
+#define C_YOU_LOSE_2 "200"
+#define C_YOU_LOSE_3 "300"
+#define C_YOU_IS_KEY "101"
+#define C_WAIT "102"
 
 #define NOT_IDENTIFIED_USER 1
 #define NOT_AUTHENTICATED 2
@@ -477,9 +481,20 @@ int findSessSignByAddr(struct sockaddr_in cliAddr, int connd)
 	return -1;
 }
 
-void showListRoom()
+void getListRoom(char message[])
 {
-	
+	strcat(message, "List room :");
+	for (int i = 0; i < countRoom; ++i)
+	{
+		strcat(message, "\nRoom id :");
+		char str[10];
+		sprintf(str, "%d",rooms[i].id);
+		strcat(message, str);
+		strcat(message, "\tPeople count : ");
+		sprintf(str, "%d",rooms[i].countUser);
+		strcat(message, str);
+		strcat(message, " Choose the room or create new room?\n");
+	}
 }
 
 //process while Code is USER
@@ -699,6 +714,41 @@ char *answQuickCodeProcess(char messAcgument[], int pos)
 	}
 }
 
+char *getCodeBonus(int bonus_level)
+{
+	switch(bonus_level){
+		case 0:
+			return C_YOU_LOSE_1;
+		case 1:
+			return C_YOU_LOSE_2;
+		case 2:
+			return C_YOU_LOSE_3;
+		default:
+			return "NULL";
+	}
+}
+
+int findUserInRoom(int posRoom, int pos)
+{
+	for (int i = 0; i <= rooms[posRoom].countUser; ++i)
+	{
+		if (memcmp(&rooms[posRoom].users[i], &sess[pos].user, sizeof(struct User)) == 0)
+		{
+			return i;
+		}
+	}
+}
+
+void kickUser(int posRoom, int posUserInRoom)
+{
+	for (int i = posUserInRoom; i < rooms[posRoom].countUser; ++i)
+	{
+		rooms[posRoom].users[i] = rooms[posRoom].users[i+1];
+		rooms[posRoom].connd[i] = rooms[posRoom].connd[i+1];
+	}
+	rooms[posRoom].countUser--;
+}
+
 //Process while Code is ANSW --main
 char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 {
@@ -726,21 +776,32 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		// return C_A_QQ_CORRECT;
 	} else {
 		//tra loi sai
-		rooms[posRoom].roomStatus = WAIT;
+		int bonus_level = countQues/5;
+		int posUserInRoom;
+		rooms[posRoom].roomStatus = WAIT; //set room status la wait de co the them ng vao
 		rooms[posRoom].countQues = 0;
-		posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[0]); //find session of user in room
-		respond(rooms[posRoom].connd[0], C_YOU_LOSE_KEY_ROOM);
-		sess[posSess].sessStatus = WAIT_QUICH_QUES;
-		sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
-		for (int i = 1; i <= rooms[posRoom].countUser; ++i)
+		sess[pos].sessStatus = AUTHENTICATED;
+		// todo show ds phong cho sess pos
+		// tim user trong room
+		posUserInRoom = findUserInRoom(posRoom, pos);
+		printf("posUserInRoom:%d\n", posUserInRoom);
+		printf("count:%d\n", rooms[posRoom].countUser);
+		kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
+		printf("count:%d\n", rooms[posRoom].countUser);
+		for (int i = 0; i < rooms[posRoom].countUser; ++i)
 		{
 			posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
-			respond(rooms[posRoom].connd[i], C_YOU_LOSE);
 			sess[posSess].sessStatus = WAIT_QUICH_QUES;
+			if (i == 0)
+			{
+				respond(rooms[posRoom].connd[i], C_YOU_IS_KEY);// thong bao tro thanh chu phong
+			}else {
+				respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
+			}
 			sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
 		}
 		//muc tien thuong = rooms[posRoom].countQues / 5
-		return "NULL";//thong bao ban da ra ve voi so tien ...
+		return getCodeBonus(bonus_level);//thong bao ban da ra ve voi so tien ...
 	} 
 	
 }
