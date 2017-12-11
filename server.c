@@ -59,6 +59,21 @@
 #define C_YOU_LOSE_1 "100"
 #define C_YOU_LOSE_2 "200"
 #define C_YOU_LOSE_3 "300"
+#define C_YOU_STOP_1 "201"
+#define C_YOU_STOP_2 "202"
+#define C_YOU_STOP_3 "203"
+#define C_YOU_STOP_4 "204"
+#define C_YOU_STOP_5 "205"
+#define C_YOU_STOP_6 "206"
+#define C_YOU_STOP_7 "207"
+#define C_YOU_STOP_8 "208"
+#define C_YOU_STOP_9 "209"
+#define C_YOU_STOP_10 "210"
+#define C_YOU_STOP_11 "211"
+#define C_YOU_STOP_12 "212"
+#define C_YOU_STOP_13 "213"
+#define C_YOU_STOP_14 "214"
+#define C_YOU_STOP_15 "215"
 #define C_YOU_IS_KEY "101"
 #define C_WAIT "102"
 
@@ -147,9 +162,12 @@ int easyList[QUES_IN_LEVER];
 int mediumList[QUES_IN_LEVER];
 int hardList[QUES_IN_LEVER];
 int easyIndex = 0, mediumIndex = 0, hardIndex = 0;
+
 int help5050count = 0;
 char answer5050[2];
 char resultFromHelp5050[100];
+
+char moneyReward[20]; 
 
 struct Session sess[MAX_SESSION];
 
@@ -878,6 +896,7 @@ char *sigcCodeProcess(char messAcgument[], int pos)
 		return C_INCORRECT_CODE;
 }
 
+//Make right answer and random answer arranged
 void arrangeAnswer(){
   	char temp;
  	if (answer5050[0] > answer5050[1])
@@ -888,6 +907,7 @@ void arrangeAnswer(){
   	}
 }
 
+//Random question from 3 choices
 char getRandom(char choice1, char choice2, char choice3)
 {
 	srand(time(NULL));
@@ -903,6 +923,8 @@ char getRandom(char choice1, char choice2, char choice3)
 				break;
 	}
 }
+
+//Help feature is 50-50
 void help5050Process(Question question)
 {
 	int i = 0;
@@ -969,6 +991,94 @@ char *helpCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 			return C_HELP_50_OK;
 		}
 	}
+}
+
+//Get money reward from number of question answered
+char *getRewardFromQuestion(int reachQues)
+{
+	switch(reachQues)
+	{
+		case 1 :
+			return C_YOU_STOP_1;
+			break;
+		case 2 :
+			return C_YOU_STOP_2;
+			break;
+		case 3 :
+			return C_YOU_STOP_3;
+			break;
+		case 4 :
+			return C_YOU_STOP_4;
+			break;
+		case 5 :
+			return C_YOU_STOP_5;
+			break;
+		case 6 :
+			return C_YOU_STOP_6;
+			break;
+		case 7 :
+			return C_YOU_STOP_7;
+			break;
+		case 8 :
+			return C_YOU_STOP_8;
+			break;
+		case 9 :
+			return C_YOU_STOP_9;
+			break;
+		case 10 :
+			return C_YOU_STOP_10;
+			break;
+		case 11 :
+			return C_YOU_STOP_11;
+			break;
+		case 12 :
+			return C_YOU_STOP_12;
+			break;
+		case 13 :
+			return C_YOU_STOP_13;
+			break;
+		case 14 :
+			return C_YOU_STOP_14;
+			break;
+		case 15 :
+			return C_YOU_STOP_15;
+			break;
+		default :
+			break;
+	}
+}
+
+//Process while Code is STOP
+char *stopCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
+{
+ 	int posRoom = findRoomById(atoi(messAcgument));
+	int posRoomInSes = findRoomById(sess[pos].room.id);
+	if (posRoom != posRoomInSes) return C_STOP_NOT_OK;
+ 	int reachQues = rooms[posRoom].countQues; //the number of question when this user say stop 
+ 	rooms[posRoom].roomStatus = WAIT; //set room status la wait de co the them ng vao
+	rooms[posRoom].countQues = 0;
+	sess[pos].sessStatus = AUTHENTICATED;
+	int posUserInRoom = findUserInRoom(posRoom, pos);
+	kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
+	for (int i = 0; i < rooms[posRoom].countUser; ++i)
+	{
+		int posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
+		sess[posSess].sessStatus = WAIT_QUICH_QUES;
+		if (i == 0)
+		{
+			respond(rooms[posRoom].connd[i], C_YOU_IS_KEY);// thong bao tro thanh chu phong
+		}else {
+			respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
+		}
+		sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+	}
+	return getRewardFromQuestion(reachQues);
+}
+
+//Process while Code is LEAV
+char *leavCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
+{
+	
 }
 
 //process request
@@ -1038,10 +1148,24 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	// }
 
 	/********messcode is ANSW**********/
-	else if (strcmp(messCode, HELP) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
+	if (strcmp(messCode, HELP) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
 	{
 		return helpCodeProcess(messAcgument, pos, cliAddr);
 	}
+
+	/********messcode is STOP**********/
+	if (strcmp(messCode, STOP) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
+	{
+		return stopCodeProcess(messAcgument, pos, cliAddr);
+	}
+
+	/********messcode is LEAV**********/
+	if (strcmp(messCode, LEAV) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
+	{
+		return leavCodeProcess(messAcgument, pos, cliAddr);
+	}
+
+
 	/********messcode is SIGU*********/
 	if (strcmp(messCode, SIGU) == 0)
 	{
@@ -1102,7 +1226,6 @@ void changeFull(char message[])
 		strcat(message, "2 answers remaining :\n");
 		strcat(message, resultFromHelp5050);
 		memset(resultFromHelp5050,'\0',(strlen(resultFromHelp5050)+1));
-
 	}
 }
 

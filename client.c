@@ -41,6 +41,21 @@
 #define C_YOU_LOSE_1 "100"
 #define C_YOU_LOSE_2 "200"
 #define C_YOU_LOSE_3 "300"
+#define C_YOU_STOP_1 "201"
+#define C_YOU_STOP_2 "202"
+#define C_YOU_STOP_3 "203"
+#define C_YOU_STOP_4 "204"
+#define C_YOU_STOP_5 "205"
+#define C_YOU_STOP_6 "206"
+#define C_YOU_STOP_7 "207"
+#define C_YOU_STOP_8 "208"
+#define C_YOU_STOP_9 "209"
+#define C_YOU_STOP_10 "210"
+#define C_YOU_STOP_11 "211"
+#define C_YOU_STOP_12 "212"
+#define C_YOU_STOP_13 "213"
+#define C_YOU_STOP_14 "214"
+#define C_YOU_STOP_15 "215"
 #define C_YOU_IS_KEY "101"
 #define C_WAIT "102"
 
@@ -147,6 +162,66 @@ char *makeFull(char respond[])
 	if (strcmp(respond, C_YOU_LOSE_3) == 0)
 	{
 		return "Regrettably, You have to leave with a bonus of 20.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_1) == 0)
+	{
+		return "You had stop this game. Your reward is 0 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_2) == 0)
+	{
+		return "You had stop this game. Your reward is 1.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_3) == 0)
+	{
+		return "You had stop this game. Your reward is 2.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_4) == 0)
+	{
+		return "You had stop this game. Your reward is 3.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_5) == 0)
+	{
+		return "You had stop this game. Your reward is 4.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_6) == 0)
+	{
+		return "You had stop this game. Your reward is 5.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_7) == 0)
+	{
+		return "You had stop this game. Your reward is 7.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_8) == 0)
+	{
+		return "You had stop this game. Your reward is 10.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_9) == 0)
+	{
+		return "You had stop this game. Your reward is 12.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_10) == 0)
+	{
+		return "You had stop this game. Your reward is 15.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_11) == 0)
+	{
+		return "You had stop this game. Your reward is 20.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_12) == 0)
+	{
+		return "You had stop this game. Your reward is 30.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_13) == 0)
+	{
+		return "You had stop this game. Your reward is 50.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_14) == 0)
+	{
+		return "You had stop this game. Your reward is 65.000.000 VND!";
+	}
+	if (strcmp(respond, C_YOU_STOP_15) == 0)
+	{
+		return "You had stop this game. Your reward is 80.000.000 VND!";
 	}
 	if (strcmp(respond, C_YOU_IS_KEY) == 0)
 	{
