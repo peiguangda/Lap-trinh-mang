@@ -36,6 +36,8 @@
 #define C_STOP_NOT_OK "25"
 #define C_CRE_ROOM_SUC "34"
 #define C_CRE_ROOM_FAI "35"
+#define C_LEAV_ROOM_SUC "36"
+#define C_LEAV_ROOM_FAI "37"
 #define C_YOU_WIN "45"
 #define C_YOU_LOSE "44"
 #define C_YOU_LOSE_1 "100"
@@ -56,7 +58,7 @@
 #define C_YOU_STOP_13 "213"
 #define C_YOU_STOP_14 "214"
 #define C_YOU_STOP_15 "215"
-#define C_YOU_IS_KEY "101"
+#define C_YOU_ARE_KEY "101"
 #define C_WAIT "102"
 
 #define BLOCKED 0
@@ -223,13 +225,21 @@ char *makeFull(char respond[])
 	{
 		return "You had stop this game. Your reward is 80.000.000 VND!";
 	}
-	if (strcmp(respond, C_YOU_IS_KEY) == 0)
+	if (strcmp(respond, C_YOU_ARE_KEY) == 0)
 	{
 		return "The main player loses, you become the master of the room!";
 	}
 	if (strcmp(respond, C_WAIT) == 0)
 	{
 		return "Main players lose, waiting for new owners start command room!";
+	}
+	if (strcmp(respond, C_LEAV_ROOM_SUC) == 0)
+	{
+		return "Leave room successful!";
+	}
+	if (strcmp(respond, C_LEAV_ROOM_FAI) == 0)
+	{
+		return "Can't leave this room!";
 	}
 	if (strcmp(respond, C_HELP_NOT_OK) == 0)
 	{

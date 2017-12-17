@@ -55,6 +55,8 @@
 #define C_STOP_NOT_OK "25"
 #define C_CRE_ROOM_SUC "34"
 #define C_CRE_ROOM_FAI "35"
+#define C_LEAV_ROOM_SUC "36"
+#define C_LEAV_ROOM_FAI "37"
 #define C_YOU_WIN "45"
 #define C_YOU_LOSE "44"
 #define C_YOU_LOSE_1 "100"
@@ -75,7 +77,7 @@
 #define C_YOU_STOP_13 "213"
 #define C_YOU_STOP_14 "214"
 #define C_YOU_STOP_15 "215"
-#define C_YOU_IS_KEY "101"
+#define C_YOU_ARE_KEY "101"
 #define C_WAIT "102"
 
 #define NOT_IDENTIFIED_USER 1
@@ -843,7 +845,7 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 			sess[posSess].sessStatus = WAIT_QUICH_QUES;
 			if (i == 0)
 			{
-				respond(rooms[posRoom].connd[i], C_YOU_IS_KEY);// thong bao tro thanh chu phong
+				respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
 			}else {
 				respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
 			}
@@ -1090,7 +1092,7 @@ char *stopCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		sess[posSess].sessStatus = WAIT_QUICH_QUES;
 		if (i == 0)
 		{
-			respond(rooms[posRoom].connd[i], C_YOU_IS_KEY);// thong bao tro thanh chu phong
+			respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
 		}else {
 			respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
 		}
@@ -1102,7 +1104,13 @@ char *stopCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 //Process while Code is LEAV
 char *leavCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 {
-	
+	int posRoom = findRoomById(atoi(messAcgument)); //find room's position
+	int posRoomInSes = findRoomById(sess[pos].room.id); //find room's position in session list
+	if (posRoom != posRoomInSes) return C_LEAV_ROOM_FAI;
+	int posUserInRoom = findUserInRoom(posRoom, pos);
+	kickUser(posRoom, posUserInRoom); //kick user 
+	sess[pos].sessStatus = AUTHENTICATED;
+	return C_LEAV_ROOM_SUC;
 }
 
 //process request
@@ -1160,6 +1168,12 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 		return answQuickCodeProcess(messAcgument, pos);
 	}
 
+	/********messcode is LEAV**********/
+	if (strcmp(messCode, LEAV) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING_QUICK_QUES)
+	{
+		return leavCodeProcess(messAcgument, pos, cliAddr);
+	}
+
 	/********messcode is ANSW**********/
 	if (strcmp(messCode, ANSW) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
 	{
@@ -1183,14 +1197,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	{
 		return stopCodeProcess(messAcgument, pos, cliAddr);
 	}
-
-	/********messcode is LEAV**********/
-	if (strcmp(messCode, LEAV) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
-	{
-		return leavCodeProcess(messAcgument, pos, cliAddr);
-	}
-
-
+	
 	/********messcode is SIGU*********/
 	if (strcmp(messCode, SIGU) == 0)
 	{
@@ -1248,7 +1255,7 @@ void changeFull(char message[])
 	}
 	if (strcmp(message, C_HELP_50_OK) == 0)
 	{
-		strcat(message, "2 answers remaining :\n");
+		strcpy(message, "2 answers remaining :\n");
 		strcat(message, resultFromHelp5050);
 		memset(resultFromHelp5050,'\0',(strlen(resultFromHelp5050)+1));
 	}
