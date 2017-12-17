@@ -1,21 +1,28 @@
-1 | 1 | Nghi lễ nào sau đây không có trong thủ tục cưới hỏi truyền thống ? | A.Lễ ăn hỏi | B.Lễ dạm ngõ | C.Lễ lại mặt | D.Lễ thôi nôi | D
-2 | 1 | Đâu là một bài hát quen thuộc của Nhạc sĩ Phạm Tuyên? | A.Chiếc khăn Trường Sơn | B.Chiếc gậy Trường Sơn | C.Chiếc chăn Trường Sơn | D.Chiếc mũ Trường Sơn | B
-3 | 1 | "Ba tuổi chưa biết nói, ngựa sắt, áo giáp sắt..."nhắc ta nhớ tới? | A.Lục vân tiên | B.Lang Liêu | C.Thủy Tinh | D.Thánh Gióng | D
-4 | 1 | "Phan Thị" là tập đoàn tội phạm xuất hiện trong bộ phim nào? | A.Sống chung với mẹ chồng | B.Người phán xử | C.Matxcova- Mùa thay lá | D.Hôn nhân trong ngõ hẹp | B
-5 | 1 | Đâu là nhân vật chính trong tiểu thuyết số đỏ của nhà văn Vũ Trọng Phụng? | A.Thu Tóc Hồng | B.Hạ Tóc Xanh | C.Xuân Tóc Đỏ | D.Đông Tóc Trắng | C
-6 | 1 | Các vua Hùng đặt quốc hiệu nước ta là gì? | A.Văn Lang | B.Âu Lạc | C.Vạn Xuân | D.Đại Việt | A
-7 | 1 | Khí nào chiếm 80% thành phần không khí? | A.N2 | B.O2 | C.H2 | D.Cl2 | A
-8 | 2 | Ngã ba Việt Trì là nơi giao nhau của sông Thao, sông Đà và sông nào nữa? | A.Sông Thái Bình | B.Sông Cầu | C.Sông Lô | D.Sông Kỳ Cùng | C
-9 | 2 | Làng nghề truyền thống nào sau đây không ở Hà Nội? | A.Làng Kiêu Kỵ | B.Làng Vòng | C.Làng Phú Đô | D.Làng Bàu Trúc | D
-10 | 2 | Ca khúc "hát về anh" do nhạc sĩ nào sáng tác? | A.Thế Hiển | B.Thuận Yến | C.Phan Huỳnh Điểu | D.Quang Đại | A
-11 | 2 | Tác phẩm "Lá ngọc cành vàng" của Nguyễn Công Hoan khi được dựng thành phim do ai thủ vai nữ chính? | A.Ngọc Chinh | B.Thu Hà | C.Xuân Quỳnh | D.Lan Hương | B
-12 | 2 | Doanh nhân nào sau đây được tôn là "Ông vua đường thủy"? | A.Lê Phát Đạt | B.Bùi Quang Đại | C.Lý Tường Quan | D.Bạch Thái Bưởi | D
-13 | 2 | Loài hoa nào được chọn là Quốc hoa của Việt Nam? | A.Hoa sen | B.Hoa mai | C.Hoa đào | D.Hoa hồng | A
-14 | 2 | Bánh pía là đặc sản có nguồn gốc từ tỉnh nào? | A.Bến Tre | B.Sóc Trăng | C.Bạc Liêu | D.Hậu Giang | B
-15 | 3 | Loại tia nào được sử dụng trong các ngân hàng để kiểm tra tiền giả? | A.Tia cực tím | B.Tia hồng ngoại | C.Tia X | D.Tia gamma | A
-16 | 3 | Hang Quân Y là địa danh nằm ở đâu? | A.Thừa Thiên Huế | B.Phú Yên | C.Quảng Ninh | D.Hải Phòng | D
-17 | 3 | Tác phẩm "Thuỷ hử" của Thi Nại Am diễn ra vào triều đại nào của Trung Quốc? | A.Triều Tống | B.Triều Nguyên | C.Triều Minh | D.Triều Thanh | A
-18 | 3 | Chùa nào được Lý Nam Đế cho xây sau khi lên ngôi hoàng đế năm 544? | A.Chùa Trấn Quốc | B.Chùa Một Cột | C.Chùa Tây Phương | D.Chùa Tứ Pháp | A
-19 | 3 | Vạn Thắng Vương là ai? | A.Đinh Bộ Lĩnh | B.Lê Hoàn | C.Lê Lợi | D.Nguyễn Huệ | B
-20 | 3 | Sau khi chiến thắng quân Nam Hán vào năm 938, Ngô Quyền đã đóng đô ở đâu? | A.Hoa Lư | B.Phú Xuân | C.Cổ Loa | D.Đại La | D
-21 | 3 | Hệ thống đô thị ở Việt Nam được phân thành mấy loại? | A.3 | B.4 | C.5 | D.6 | D
+1 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+2 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+3 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+4 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+5 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+6 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+7 | 0 | Sắp xếp các từ sau thành tên một bài hát của nhạc sĩ Phan Lạc Hoa ? | A.Quan họ | B.Trên | C.Dòng sông | D.Tình yêu | DBCA
+8 | 1 | Nghi lễ nào sau đây không có trong thủ tục cưới hỏi truyền thống ? | A.Lễ ăn hỏi | B.Lễ dạm ngõ | C.Lễ lại mặt | D.Lễ thôi nôi | D
+9 | 1 | Đâu là một bài hát quen thuộc của Nhạc sĩ Phạm Tuyên? | A.Chiếc khăn Trường Sơn | B.Chiếc gậy Trường Sơn | C.Chiếc chăn Trường Sơn | D.Chiếc mũ Trường Sơn | B
+10 | 1 | "Ba tuổi chưa biết nói, ngựa sắt, áo giáp sắt..."nhắc ta nhớ tới? | A.Lục vân tiên | B.Lang Liêu | C.Thủy Tinh | D.Thánh Gióng | D
+11 | 1 | "Phan Thị" là tập đoàn tội phạm xuất hiện trong bộ phim nào? | A.Sống chung với mẹ chồng | B.Người phán xử | C.Matxcova- Mùa thay lá | D.Hôn nhân trong ngõ hẹp | B
+12 | 1 | Đâu là nhân vật chính trong tiểu thuyết số đỏ của nhà văn Vũ Trọng Phụng? | A.Thu Tóc Hồng | B.Hạ Tóc Xanh | C.Xuân Tóc Đỏ | D.Đông Tóc Trắng | C
+13 | 1 | Các vua Hùng đặt quốc hiệu nước ta là gì? | A.Văn Lang | B.Âu Lạc | C.Vạn Xuân | D.Đại Việt | A
+14 | 1 | Khí nào chiếm 80% thành phần không khí? | A.N2 | B.O2 | C.H2 | D.Cl2 | A
+15 | 2 | Ngã ba Việt Trì là nơi giao nhau của sông Thao, sông Đà và sông nào nữa? | A.Sông Thái Bình | B.Sông Cầu | C.Sông Lô | D.Sông Kỳ Cùng | C
+16 | 2 | Làng nghề truyền thống nào sau đây không ở Hà Nội? | A.Làng Kiêu Kỵ | B.Làng Vòng | C.Làng Phú Đô | D.Làng Bàu Trúc | D
+17 | 2 | Ca khúc "hát về anh" do nhạc sĩ nào sáng tác? | A.Thế Hiển | B.Thuận Yến | C.Phan Huỳnh Điểu | D.Quang Đại | A
+18 | 2 | Tác phẩm "Lá ngọc cành vàng" của Nguyễn Công Hoan khi được dựng thành phim do ai thủ vai nữ chính? | A.Ngọc Chinh | B.Thu Hà | C.Xuân Quỳnh | D.Lan Hương | B
+19 | 2 | Doanh nhân nào sau đây được tôn là "Ông vua đường thủy"? | A.Lê Phát Đạt | B.Bùi Quang Đại | C.Lý Tường Quan | D.Bạch Thái Bưởi | D
+20 | 2 | Loài hoa nào được chọn là Quốc hoa của Việt Nam? | A.Hoa sen | B.Hoa mai | C.Hoa đào | D.Hoa hồng | A
+21 | 2 | Bánh pía là đặc sản có nguồn gốc từ tỉnh nào? | A.Bến Tre | B.Sóc Trăng | C.Bạc Liêu | D.Hậu Giang | B
+22 | 3 | Loại tia nào được sử dụng trong các ngân hàng để kiểm tra tiền giả? | A.Tia cực tím | B.Tia hồng ngoại | C.Tia X | D.Tia gamma | A
+23 | 3 | Hang Quân Y là địa danh nằm ở đâu? | A.Thừa Thiên Huế | B.Phú Yên | C.Quảng Ninh | D.Hải Phòng | D
+24 | 3 | Tác phẩm "Thuỷ hử" của Thi Nại Am diễn ra vào triều đại nào của Trung Quốc? | A.Triều Tống | B.Triều Nguyên | C.Triều Minh | D.Triều Thanh | A
+25 | 3 | Chùa nào được Lý Nam Đế cho xây sau khi lên ngôi hoàng đế năm 544? | A.Chùa Trấn Quốc | B.Chùa Một Cột | C.Chùa Tây Phương | D.Chùa Tứ Pháp | A
+26 | 3 | Vạn Thắng Vương là ai? | A.Đinh Bộ Lĩnh | B.Lê Hoàn | C.Lê Lợi | D.Nguyễn Huệ | B
+27 | 3 | Sau khi chiến thắng quân Nam Hán vào năm 938, Ngô Quyền đã đóng đô ở đâu? | A.Hoa Lư | B.Phú Xuân | C.Cổ Loa | D.Đại La | D
+28 | 3 | Hệ thống đô thị ở Việt Nam được phân thành mấy loại? | A.3 | B.4 | C.5 | D.6 | D

@@ -108,7 +108,7 @@
 
 #define QUES_FILENAME "question.txt"
 #define QUES_IN_LEVER 7
-#define QUES_NUMBER 21
+#define QUES_NUMBER 28
 
 struct User
 {
@@ -125,12 +125,12 @@ typedef struct question
 {
 	int id;
 	int level; //1 : easy, 2 : medium, 3 : hard
-	char content[100];
+	char content[400];
 	char choiceA[50];
 	char choiceB[50];
 	char choiceC[50];
 	char choiceD[50];
-	char answer;
+	char answer[5];
 	int quesStatus; //da co nguoi tra loi nhanh nhat chua?
 } Question;
 
@@ -230,9 +230,8 @@ struct Room newRoom(int id, int connd, struct User user)
 //print question and lever
 void printListQues(){
 	int i;
-	printf("Easy list :\n");
 	for (i = 0; i < QUES_NUMBER; i++){
-		printf("%s\n%s\n%s\n%s\n%s\n%c\n", questionList[i].content, questionList[i].choiceA, questionList[i].choiceB, questionList[i].choiceC, questionList[i].choiceD, questionList[i].answer);
+		printf("%s\n%s\n%s\n%s\n%s\n%s\n", questionList[i].content, questionList[i].choiceA, questionList[i].choiceB, questionList[i].choiceC, questionList[i].choiceD, questionList[i].answer);
 	}
 }
 
@@ -279,7 +278,7 @@ void readQues(){
 	FILE *fptr;
 	int id, lv;
 	char content[1000], a[1000], b[1000], c[1000], d[1000];
-	char answ;
+	char answ[5];
 	int i = 0;
 	fptr = fopen(QUES_FILENAME, "r");
 	if (fptr == NULL) {
@@ -287,15 +286,16 @@ void readQues(){
 		return;
 	}
 	
-	while(fscanf(fptr, "%d | %d | %[^|] | %[^|] | %[^|] | %[^|] | %[^|] | %c", &id, &lv, content, a, b, c, d, &answ) != EOF){
+	while(fscanf(fptr, "%d | %d | %[^|] | %[^|] | %[^|] | %[^|] | %[^|] | %s", &id, &lv, content, a, b, c, d, answ) != EOF){
 		questionList[i].id = id;
 		questionList[i].level = lv;
+		bzero(questionList[i].content,400);
 		strcpy(questionList[i].content, content);
 		strcpy(questionList[i].choiceA, a);
 		strcpy(questionList[i].choiceB, b);
 		strcpy(questionList[i].choiceC, c);
 		strcpy(questionList[i].choiceD, d);
-		questionList[i].answer = answ;
+		strcpy(questionList[i].answer, answ);
 		addLeverList(id, lv);
 		i++;
 	}
@@ -546,6 +546,41 @@ void getListRoom(char message[])
 	}
 }
 
+void setStatusSessSign(int pos, int status)
+{
+	sessSignup[pos].sessStatus = status;
+}
+
+int sessSignStatusIs(int pos, int status)
+{
+	return sessSignup[pos].sessStatus == status;
+}
+
+void setStatusSess(int pos, int status)
+{
+	sess[pos].sessStatus = status;
+}
+
+void setSessRoom(int pos, struct Room room)
+{
+	sess[pos].room = room;
+}
+
+int roomStatusIs(int pos, int status)
+{
+	return rooms[pos].roomStatus == status;
+}
+
+void setStatusRoom(int pos, int status)
+{
+	rooms[pos].roomStatus = status;
+}
+
+int sessStatusIs(int pos, int status)
+{
+	return sess[pos].sessStatus == status;
+}
+
 //process while Code is USER
 char *userCodeProcess(struct sockaddr_in cliAddr, int connd, int pos, int i)
 {
@@ -554,17 +589,14 @@ char *userCodeProcess(struct sockaddr_in cliAddr, int connd, int pos, int i)
 	if (users[i].userStatus == BLOCKED)	return C_BLOCK; //if found user but user blocked
 	if (pos == -1) //if not found session
 	{
-		printf("aaa\n");
 		session = newSession(users[i], NOT_AUTHENTICATED, cliAddr, connd);// create new session
 		addSession(session);
-		printf("session status:%d\n",sess[sessCount-1].sessStatus);                                       // add session
 		return C_FOUND_ID;
 	}
 	//found session
-	else if (sess[pos].sessStatus == NOT_AUTHENTICATED || sess[pos].sessStatus == NOT_IDENTIFIED_USER) {//found user != user of session
-		sess[pos].sessStatus = NOT_AUTHENTICATED;
-		printf("aaa\n");
-		printf("session status:%d\n",sess[pos].sessStatus);
+	else if (sessStatusIs(pos, NOT_AUTHENTICATED) || sessStatusIs(pos, NOT_IDENTIFIED_USER)) {//found user != user of session
+		// sess[pos].sessStatus = NOT_AUTHENTICATED;
+		setStatusSess(pos, NOT_AUTHENTICATED);
 		memcpy(&(sess[pos].user), &users[i], sizeof(struct User));
 		return C_FOUND_ID;
 	}
@@ -575,7 +607,6 @@ char *userCodeProcess(struct sockaddr_in cliAddr, int connd, int pos, int i)
 char *passCodeProcess(char messAcgument[], int pos)
 {
 	int i;
-	printf("session status:%d\n",sess[pos].sessStatus);
 	if (sess[pos].user.userStatus == BLOCKED)
 		{
 			return C_BLOCK;
@@ -583,7 +614,8 @@ char *passCodeProcess(char messAcgument[], int pos)
 		//if PASS ok
 		if (strcmp (sess[pos].user.password, messAcgument) == 0) 
 		{
-			sess[pos].sessStatus = AUTHENTICATED; //next status  
+			// sess[pos].sessStatus = AUTHENTICATED; //next status  
+			setStatusSess(pos, AUTHENTICATED);
 			sess[pos].countLogin = 0;			 // reset count login
 			return C_FOUND_PASSWORD;
 		}
@@ -611,8 +643,10 @@ char *crrmCodeProcess(char messAcgument[], int pos)
 		return C_CRE_ROOM_FAI; //room exist
 	} else {
 		room = newRoom(atoi(messAcgument), sess[pos].connd, sess[pos].user);
-		sess[pos].sessStatus = WAIT_QUICH_QUES;
-		sess[pos].room = room;
+		// sess[pos].sessStatus = WAIT_QUICH_QUES;
+		setStatusSess(pos, WAIT_QUICH_QUES);
+		// sess[pos].room = room;
+		setSessRoom(pos, room);
 		return C_CRE_ROOM_SUC;
 	}
 }
@@ -626,7 +660,6 @@ void addUserToRoom(int i, int connd,struct User user)
 		rooms[i].users[count] = user;
 		rooms[i].connd[count] = connd;
 		rooms[i].countUser ++;
-		printf("countUser:%d\n", rooms[i].countUser);
 	}else {
 		printf("room full slot\n");
 	}
@@ -640,23 +673,35 @@ char *joinCodeProcess(char messAcgument[], int pos, int connd)
 	int i = findRoomById(atoi(messAcgument));
 	if (i < 0 ){ //phong khong ton tai
 		return C_OUT_ROOM;
-	} else if (rooms[i].roomStatus == PLAY){ //phong dang choi
+	} else if (roomStatusIs(i, PLAY)){ //phong dang choi
 		return C_OUT_ROOM;
 	}else {
 		addUserToRoom(i, connd, sess[pos].user);
-		sess[pos].sessStatus = WAIT_QUICH_QUES;
-		sess[pos].room = rooms[i];
+		// sess[pos].sessStatus = WAIT_QUICH_QUES;
+		setStatusSess(pos, WAIT_QUICH_QUES);
+		// sess[pos].room = rooms[i];
+		setSessRoom(pos, rooms[i]);
 
 		return C_IN_ROOM;
 	}
 }
 
 
+char content[600];
 //make full question (question + choose answer)
-char *makeFullQues(Question question)
+char *makeFullQues(Question question, int countQues)
 {
-	char *content = NULL;
-	content = question.content;
+	bzero(content,600);
+	char str[1];
+	if (countQues == 0){
+		strcpy(content, "Quick question ");
+	} else {
+		strcpy(content, "Question ");
+		// sprintf(str, "%d",countQues);
+		// strcat(content, str);
+	}
+	strcat(content, ":");
+	strcat(content,question.content);
 	strcat(content, "\n");
 	strcat(content, question.choiceA);
 	strcat(content, "\n");
@@ -681,17 +726,23 @@ char *starCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 			//send question to all users of room
 			int i;
 			posRoom = findRoomById(atoi(messAcgument));
-			rooms[posRoom].roomStatus = PLAY;  //set trang thai room = dang choi cho thang khac ko vao dc
+			// rooms[posRoom].roomStatus = PLAY;  //set trang thai room = dang choi cho thang khac ko vao dc
+			setStatusRoom(posRoom, PLAY);
+			random = randomQuestion(easyList); //random quick question
+			quickQues = questionList[random];
+			quickQues.quesStatus = 0; //chua co nguoi tra loi dung
+			char* res = makeFullQues(quickQues, rooms[posRoom].countQues);
+
 			for (i = 0; i <= rooms[posRoom].countUser; ++i)
 			{
 				posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
-				random = randomQuestion(easyList); //random quick question
-				quickQues = questionList[random];
-				quickQues.quesStatus = 0; //chua co nguoi tra loi dung
-				respond(rooms[posRoom].connd[i], makeFullQues(quickQues));
-				sess[posSess].sessStatus = PLAYING_QUICK_QUES;
-				sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+				respond(rooms[posRoom].connd[i],res);
+				// sess[posSess].sessStatus = PLAYING_QUICK_QUES;
+				setStatusSess(posSess, PLAYING_QUICK_QUES);
+				// sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+				setSessRoom(posSess, rooms[posRoom]);
 			}
+			// free(res);
 			return "NULL";
 		}else {
 			return "you are not room master";
@@ -699,6 +750,10 @@ char *starCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	}else {
 		return "Id room fails";
 	}
+}
+
+void view(Question q){
+	printf("%s\n%s\n%s\n%s\n%s\n%s\n", q.content, q.choiceA, q.choiceB, q.choiceC, q.choiceD, q.answer);
 }
 
 //get question random
@@ -712,32 +767,29 @@ Question getQuestion(int pos)
 		case 2:
 		case 3:
 		case 4:
-			random = randomQuestion(easyList); //random question easy lever
+			random = randomQuestion(easyList) + QUES_IN_LEVER; //random question easy lever
 			break;
 		case 5:
 		case 6:
 		case 7:
 		case 8:
 		case 9:
-			printf("medium ok\n");
-			random = randomQuestion(mediumList) + QUES_IN_LEVER; //random question medium lever
+			random = randomQuestion(mediumList) + QUES_IN_LEVER * 2; //random question medium lever
 			break;
 		case 10:
 		case 11:
 		case 12:
 		case 13:
 		case 14:
-			random = randomQuestion(hardList) + QUES_IN_LEVER * 2; //random question hard lerver
+			random = randomQuestion(hardList) + QUES_IN_LEVER * 3; //random question hard lerver
 			break;
 		case 15:
 			break;
 		default:
 			break;		
 	}
-	// question = questionList[random -1];
-	printListQues();
-	printf("questionList[random -1].content:%s\n",questionList[random -1].content );
-	return questionList[random -1];
+	view(questionList[random]);
+	return questionList[random];
 }
 
 
@@ -746,19 +798,23 @@ char *answQuickCodeProcess(char messAcgument[], int pos)
 {
 	Question question;
 	int posRoom = findRoomById(sess[pos].room.id);
-	if(strlen(messAcgument) == 1 && messAcgument[0] == quickQues.answer && quickQues.quesStatus == 0){
+	if(strcmp(messAcgument, quickQues.answer) ==0 && quickQues.quesStatus == 0){
 		//tra loi dung
-			sess[pos].sessStatus = PLAYING; //set main
-			quickQues.quesStatus = 1;
-			//return question to main && save question to list question of session
-			question = getQuestion(pos);
-			rooms[posRoom].questions[0] = question;
-			rooms[posRoom].countQues++;
-			sess[pos].room = rooms[posRoom];
-			return makeFullQues(question);
-			// return C_A_QQ_CORRECT;
+		setStatusSess(pos, PLAYING);
+		// sess[pos].sessStatus = PLAYING; //set main
+		quickQues.quesStatus = 1;
+		//return question to main && save question to list question of session
+		question = getQuestion(pos);
+		//m thu doi het ve strcpy o doan nay xem nao 
+		rooms[posRoom].questions[0] = question;
+		rooms[posRoom].countQues++;
+		// sess[pos].room = rooms[posRoom];
+		setSessRoom(pos, rooms[posRoom]);
+		return makeFullQues(question, rooms[posRoom].countQues);
+		// return C_A_QQ_CORRECT;
 	}else{
-		sess[pos].sessStatus = WATCHING; //chi dc xem
+		// sess[pos].sessStatus = WATCHING; //chi dc xem
+		setStatusSess(pos, WATCHING);
 		//todo cho client lang nghe lien
 		return C_A_QQ_INCORRECT;
 	}
@@ -807,8 +863,7 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	int posRoom = findRoomById(sess[pos].room.id);
 	int countQues = rooms[posRoom].countQues;
 	printf("countQues: %d\n",countQues );
-	printf("rooms[posRoom].questions[countQues-1]: %c\n",rooms[posRoom].questions[countQues-1].answer );
-	if(strlen(messAcgument) == 1 && messAcgument[0] == rooms[posRoom].questions[countQues-1].answer){
+	if(strlen(messAcgument) == 1 && strcmp(messAcgument, rooms[posRoom].questions[countQues-1].answer) == 0){
 		//return question to main && save question to list question of session && tang so cau tra loi dung len +1
 		if (rooms[posRoom].countQues >= MAX_QUESTION)
 		{
@@ -818,38 +873,38 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		question = getQuestion(pos);
 		rooms[posRoom].questions[countQues] = question;
 		rooms[posRoom].countQues++;
-		sess[pos].room = rooms[posRoom];
-		printf("DDSFSAF : %s\n",makeFullQues(question) );
-		// content = question.content;
-
-		return makeFullQues(question);
+		// sess[pos].room = rooms[posRoom];
+		setSessRoom(pos, rooms[posRoom]);
+		char* s = makeFullQues(question, rooms[posRoom].countQues);
+		return s;
 		// return C_A_QQ_CORRECT;
 	} else {
 		//tra loi sai
 		int bonus_level = countQues/5;
 		int posUserInRoom;
 		int i;
-		rooms[posRoom].roomStatus = WAIT; //set room status la wait de co the them ng vao
+		// rooms[posRoom].roomStatus = WAIT; //set room status la wait de co the them ng vao
+		setStatusRoom(posRoom, WAIT);
 		rooms[posRoom].countQues = 0;
-		sess[pos].sessStatus = AUTHENTICATED;
+		// sess[pos].sessStatus = AUTHENTICATED;
+		setStatusSess(pos, AUTHENTICATED);
 		// todo show ds phong cho sess pos
 		// tim user trong room
 		posUserInRoom = findUserInRoom(posRoom, pos);
-		printf("posUserInRoom:%d\n", posUserInRoom);
-		printf("count:%d\n", rooms[posRoom].countUser);
 		kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
-		printf("count:%d\n", rooms[posRoom].countUser);
 		for (i = 0; i < rooms[posRoom].countUser; ++i)
 		{
 			posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
-			sess[posSess].sessStatus = WAIT_QUICH_QUES;
+			// sess[posSess].sessStatus = WAIT_QUICH_QUES;
+			setStatusSess(posSess, WAIT_QUICH_QUES);
 			if (i == 0)
 			{
 				respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
 			}else {
 				respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
 			}
-			sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+			// sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+			setSessRoom(posSess, rooms[posRoom]);
 		}
 		//muc tien thuong = rooms[posRoom].countQues / 5
 		return getCodeBonus(bonus_level);//thong bao ban da ra ve voi so tien ...
@@ -863,7 +918,8 @@ char *loutCodeProcess(char messAcgument[], int pos)
 {
 	if (strcmp(sess[pos].user.id, messAcgument) == 0) //check userId is valid?
 		{
-			sess[pos].sessStatus = NOT_IDENTIFIED_USER; //reset session status
+			// sess[pos].sessStatus = NOT_IDENTIFIED_USER; //reset session status
+			setStatusSess(pos, NOT_IDENTIFIED_USER);
 			return C_LOGOUT_OK;
 		} else 
 			return C_LOGOUT_FAILS;
@@ -883,8 +939,9 @@ char *siguCodeProcess(char messAcgument[],struct sockaddr_in cliAddr, int connd,
 		return C_NEW_USER;
 	}
 	//found session
-	else if (sessSignup[pos].sessStatus == START_SIGNUP || sessSignup[pos].sessStatus == USERNAME_CREATED) {//found user != user of session
-		sessSignup[pos].sessStatus = USERNAME_CREATED;
+	else if (sessSignStatusIs(pos, START_SIGNUP) || sessSignStatusIs(pos, USERNAME_CREATED)) {//found user != user of session
+		// sessSignup[pos].sessStatus = USERNAME_CREATED;
+		setStatusSessSign(pos, USERNAME_CREATED);
 		memcpy(&(sessSignup[pos].user), &user, sizeof(struct User));
 		return C_NEW_USER;
 	}
@@ -900,7 +957,8 @@ char *sigpCodeProcess(char messAcgument[], int posSign)
 		strcpy(sessSignup[posSign].user.password, messAcgument);
 		strcpy(sessSignup[posSign].capcha, makeCapcha());
 		posCapchar = posSign;
-		sessSignup[posSign].sessStatus = PASSWORD_CREATED; //next status  
+		// sessSignup[posSign].sessStatus = PASSWORD_CREATED; //next status 
+		setStatusSessSign(posSign, PASSWORD_CREATED);
 		return C_CORRECT_PASS;
 	}
 	else return C_INCORRECT_PASS;
@@ -911,7 +969,8 @@ char *sigcCodeProcess(char messAcgument[], int pos)
 {
 	if (strcmp(sessSignup[pos].capcha, messAcgument) == 0) //check capcha
 	{
-		sessSignup[pos].sessStatus = SIGNUP_SUCCESSFUL; 
+		// sessSignup[pos].sessStatus = SIGNUP_SUCCESSFUL; 
+		setStatusSessSign(pos, SIGNUP_SUCCESSFUL);
 		sessSignup[pos].user.count = userCount;
 		if (addUser(sessSignup[pos].user))
 		{
@@ -954,7 +1013,7 @@ char getRandom(char choice1, char choice2, char choice3)
 void help5050Process(Question question)
 {
 	int i = 0;
-	switch(question.answer)
+	switch(question.answer[0])
 	{
 		case 'A':
 			answer5050[0] = 'A';
@@ -1081,22 +1140,26 @@ char *stopCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	int posRoomInSes = findRoomById(sess[pos].room.id);
 	if (posRoom != posRoomInSes) return C_STOP_NOT_OK;
  	int reachQues = rooms[posRoom].countQues; //the number of question when this user say stop 
- 	rooms[posRoom].roomStatus = WAIT; //set room status la wait de co the them ng vao
+ 	// rooms[posRoom].roomStatus = WAIT; //set room status la wait de co the them ng vao
+ 	setStatusRoom(posRoom, WAIT);
 	rooms[posRoom].countQues = 0;
-	sess[pos].sessStatus = AUTHENTICATED;
+	// sess[pos].sessStatus = AUTHENTICATED;
+	setStatusSess(pos, AUTHENTICATED);
 	int posUserInRoom = findUserInRoom(posRoom, pos);
 	kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
 	for (int i = 0; i < rooms[posRoom].countUser; ++i)
 	{
 		int posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
-		sess[posSess].sessStatus = WAIT_QUICH_QUES;
+		// sess[posSess].sessStatus = WAIT_QUICH_QUES;
+		setStatusSess(posSess, WAIT_QUICH_QUES);
 		if (i == 0)
 		{
 			respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
 		}else {
 			respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
 		}
-		sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+		// sess[posSess].room = rooms[posRoom]; //update status room is PLAY on session
+		setSessRoom(posSess, rooms[posRoom]);
 	}
 	return getRewardFromQuestion(reachQues);
 }
@@ -1109,7 +1172,8 @@ char *leavCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	if (posRoom != posRoomInSes) return C_LEAV_ROOM_FAI;
 	int posUserInRoom = findUserInRoom(posRoom, pos);
 	kickUser(posRoom, posUserInRoom); //kick user 
-	sess[pos].sessStatus = AUTHENTICATED;
+	// sess[pos].sessStatus = AUTHENTICATED;
+	setStatusSess(pos, AUTHENTICATED);
 	return C_LEAV_ROOM_SUC;
 }
 
@@ -1129,7 +1193,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is PASS**********/
-	if (strcmp(messCode, PASS) == 0 && pos != -1 && sess[pos].sessStatus == NOT_AUTHENTICATED )
+	if (strcmp(messCode, PASS) == 0 && pos != -1 && sessStatusIs(pos, NOT_AUTHENTICATED))
 	{
 		// printSession(pos);
 		printf("session status:%d\n",sess[pos].sessStatus);
@@ -1137,7 +1201,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is CRRM**********/
-	if (strcmp(messCode, CRRM) == 0 && pos != -1 && sess[pos].sessStatus == AUTHENTICATED )
+	if (strcmp(messCode, CRRM) == 0 && pos != -1 && sessStatusIs(pos, AUTHENTICATED) )
 	{
 		// printSession(pos);
 		printf("session status:%d\n",sess[pos].sessStatus);
@@ -1145,7 +1209,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is JOIN**********/
-	if (strcmp(messCode, JOIN) == 0 && pos != -1 && sess[pos].sessStatus == AUTHENTICATED )
+	if (strcmp(messCode, JOIN) == 0 && pos != -1 && sessStatusIs(pos, AUTHENTICATED) )
 	{
 		// printSession(pos);
 		printf("session status:%d\n",sess[pos].sessStatus);
@@ -1153,7 +1217,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is STAR**********/
-	if (strcmp(messCode, STAR) == 0 && pos != -1 && sess[pos].sessStatus == WAIT_QUICH_QUES )
+	if (strcmp(messCode, STAR) == 0 && pos != -1 && sessStatusIs(pos, WAIT_QUICH_QUES) )
 	{
 		// printSession(pos);
 		printf("session status:%d\n",sess[pos].sessStatus);
@@ -1161,7 +1225,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is ANSW**********/
-	if (strcmp(messCode, ANSW) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING_QUICK_QUES )
+	if (strcmp(messCode, ANSW) == 0 && pos != -1 && sessStatusIs(pos, PLAYING_QUICK_QUES) )
 	{
 		// printSession(pos);
 		printf("session status:%d\n",sess[pos].sessStatus);
@@ -1169,13 +1233,13 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is LEAV**********/
-	if (strcmp(messCode, LEAV) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING_QUICK_QUES)
+	if (strcmp(messCode, LEAV) == 0 && pos != -1 && sessStatusIs(pos, PLAYING_QUICK_QUES))
 	{
 		return leavCodeProcess(messAcgument, pos, cliAddr);
 	}
 
 	/********messcode is ANSW**********/
-	if (strcmp(messCode, ANSW) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
+	if (strcmp(messCode, ANSW) == 0 && pos != -1 && sessStatusIs(pos, PLAYING) )
 	{
 		// printSession(pos);
 		return answCodeProcess(messAcgument, pos, cliAddr);
@@ -1187,13 +1251,13 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	// }
 
 	/********messcode is ANSW**********/
-	if (strcmp(messCode, HELP) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
+	if (strcmp(messCode, HELP) == 0 && pos != -1 && sessStatusIs(pos, PLAYING) )
 	{
 		return helpCodeProcess(messAcgument, pos, cliAddr);
 	}
 
 	/********messcode is STOP**********/
-	if (strcmp(messCode, STOP) == 0 && pos != -1 && sess[pos].sessStatus == PLAYING )
+	if (strcmp(messCode, STOP) == 0 && pos != -1 && sessStatusIs(pos, PLAYING) )
 	{
 		return stopCodeProcess(messAcgument, pos, cliAddr);
 	}
@@ -1206,13 +1270,13 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is SIGP*********/
-	if (strcmp(messCode, SIGP) == 0 && posSign != -1 && sessSignup[posSign].sessStatus == USERNAME_CREATED)
+	if (strcmp(messCode, SIGP) == 0 && posSign != -1 && sessSignStatusIs(posSign, USERNAME_CREATED))
 	{
 		return sigpCodeProcess(messAcgument, posSign);
 	}
 
 	/********messcode is SIGC*********/
-	if (strcmp(messCode, SIGC) == 0 && posSign != -1 && sessSignup[posSign].sessStatus == PASSWORD_CREATED)
+	if (strcmp(messCode, SIGC) == 0 && posSign != -1 && sessSignStatusIs(posSign, PASSWORD_CREATED))
 	{
 		return sigcCodeProcess(messAcgument, posSign);
 	}
@@ -1289,7 +1353,6 @@ int main(int argc, char *argv[]) {
 	}
 	printf("...\n");
 	readQues();
-	// printListQues();
 	fdmax = 1;
 	fds[0].fd = listen_sock;
 	fds[0].events = POLLIN;
