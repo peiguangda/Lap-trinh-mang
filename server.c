@@ -107,8 +107,8 @@
 #define FILE_NAME "account.txt"
 
 #define QUES_FILENAME "question.txt"
-#define QUES_IN_LEVER 7
-#define QUES_NUMBER 28
+#define QUES_IN_LEVER 30
+#define QUES_NUMBER 120
 
 struct User
 {
