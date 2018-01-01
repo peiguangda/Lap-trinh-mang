@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <time.h>
 
-
+#define INT_DIGITS 19
 #define BACKLOG 30
 #define BUFF_SIZE 8192
 #define USER "USER"
@@ -24,7 +24,7 @@
 #define JOIN "JOIN"
 #define STAR "STAR"
 #define STOP "STOP"
-#define CRRM "CRRM" //create room
+#define CRRM "CRRM"
 #define LEAV "LEAV" 
 
 #define C_FOUND_ID "00"
@@ -94,6 +94,7 @@
 #define READY 12
 #define LOSE 13
 #define ADVISING_MAIN_PLAYER 14
+#define HELP_ADVISORY 15
 
 #define BLOCKED 0
 #define ACTIVE 1
@@ -143,6 +144,8 @@ struct Room
 	Question questions[MAX_QUESTION];
 	int countQues;
 	int roomStatus;
+	int countHelp;
+	char helpAnsw[MAX_USER][2];
 };
 
 struct Room rooms[MAX_ROOM];
@@ -225,6 +228,7 @@ struct Room newRoom(int id, int connd, struct User user)
 	rooms[countRoom].connd[0] = connd;
 	rooms[countRoom].countQues = 0;
 	rooms[countRoom].roomStatus = WAIT;
+	rooms[countRoom].countHelp = 0;
 	countRoom++;
 	return rooms[countRoom-1];
 }
@@ -688,6 +692,28 @@ char *joinCodeProcess(char messAcgument[], int pos, int connd)
 	}
 }
 
+char *itoa(i)
+     int i;
+{
+  /* Room for INT_DIGITS digits, - and '\0' */
+  static char buf[INT_DIGITS + 2];
+  char *p = buf + INT_DIGITS + 1;	/* points to terminating '\0' */
+  if (i >= 0) {
+    do {
+      *--p = '0' + (i % 10);
+      i /= 10;
+    } while (i != 0);
+    return p;
+  }
+  else {			/* i < 0 */
+    do {
+      *--p = '0' - (i % 10);
+      i /= 10;
+    } while (i != 0);
+    *--p = '-';
+  }
+  return p;
+}
 
 char content[600];
 //make full question (question + choose answer)
@@ -699,8 +725,9 @@ char *makeFullQues(Question question, int countQues)
 		strcpy(content, "Quick question ");
 	} else {
 		strcpy(content, "Question ");
+		strcpy(str, itoa(countQues));
 		// sprintf(str, "%d",countQues);
-		// strcat(content, str);
+		strcat(content, str);
 	}
 	strcat(content, ":");
 	strcat(content,question.content);
@@ -1064,21 +1091,23 @@ void help5050Process(Question question)
 	}
 }
 
-void helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr)
+char *helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr)
 {
-	//int i;
-	// int room = findRoomById(atoi(sess[pos].room.id));
-	// printf("ROOM : %d\n", room);
-	// char* res = makeFullQues(question, rooms[room].countQues);
-	// printf("RESSSSSSSS :%s\n", res);
-	// //Send to all user in this room
-	// for (i = 1; i <= rooms[room].countUser; i++)
-	// {
-	// 	int posSess = findSessByAddr(cliAddr, rooms[room].connd[i]);
-	// 	respond(rooms[room].connd[i],res);
-	// 	setStatusSess(posSess, ADVISING_MAIN_PLAYER);
-	// 	//setSessRoom(posSess, rooms[room]);
-	// }
+	int i, posSess;
+	int posRoom = findRoomById(sess[pos].room.id);
+	int countQues = rooms[posRoom].countQues;
+	char* res = makeFullQues(question, countQues);
+
+	for (i = 0; i <= rooms[posRoom].countUser; ++i)
+	{
+		posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
+		if (sessStatusIs(posSess, WATCHING))
+		{
+			respond(rooms[posRoom].connd[i],res);
+			setStatusSess(posSess, HELP_ADVISORY);
+		}
+	}
+	return "NULL";
 }
 
 
@@ -1100,6 +1129,7 @@ char *helpCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	else if (strcmp(messAcgument, "2") == 0)
 	{
 		if (helpAdvisoryCount != 0) return C_HELP_NOT_OK;
+		if (sess[pos].room.countUser <= 1) return C_HELP_NOT_OK;
 		else {
 			helpAdvisoryProcess(question, pos, cliAddr);
 			helpAdvisoryCount++;
@@ -1107,6 +1137,79 @@ char *helpCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		}
 	}
 	else return C_HELP_NOT_OK;
+}
+
+char *getHelpAdvise(int posRoom)
+{
+	int countHelp = rooms[posRoom].countHelp;
+	int a=0,b=0,c=0,d=0;
+	int perA, perB, perC, perD;
+	char str[3];
+	bzero(content,600);
+	for (int i = 0; i < countHelp; ++i)
+	{
+		if(strcmp(rooms[posRoom].helpAnsw[i], "A" ) == 0){
+			a++;
+		}
+		if(strcmp(rooms[posRoom].helpAnsw[i], "B" ) == 0){
+			b++;
+		}
+		if(strcmp(rooms[posRoom].helpAnsw[i], "C" ) == 0){
+			c++;
+		}
+		if(strcmp(rooms[posRoom].helpAnsw[i], "D" ) == 0){
+			d++;
+		}
+	}
+
+	perA = 100*a/(a+b+c+d);
+	perB = 100*b/(a+b+c+d);
+	perC = 100*c/(a+b+c+d);
+	perD = 100*d/(a+b+c+d);
+	strcpy(content, "Gợi ý của khán giả cho người chơi chính như sau:");
+	strcat(content, "\nA:");
+	strcpy(str, itoa(perA));
+	strcat(content, str);
+	strcat(content, "%\nB:");
+	strcpy(str, itoa(perB));
+	strcat(content, str);
+	strcat(content, "%\nC:");
+	strcpy(str, itoa(perC));
+	strcat(content, str);
+	strcat(content, "%\nD:");
+	strcpy(str, itoa(perD));
+	strcat(content, str);
+	strcat(content, "%\n");
+	return content;
+}
+
+char *answHelpCodeProcess(char messAcgument[],int pos, struct sockaddr_in cliAddr)
+{
+	int i, posSess, posRoom = findRoomById(sess[pos].room.id);
+	int countHelp = rooms[posRoom].countHelp;
+	setStatusSess(pos, WATCHING);
+	strcpy(rooms[posRoom].helpAnsw[countHelp], messAcgument) ;
+	rooms[posRoom].countHelp++;
+	if (rooms[posRoom].countHelp == rooms[posRoom].countUser-1)
+	{
+		printf("aaaaaaaaaaa\n");
+		for (i = 0; i < rooms[posRoom].countUser; ++i)
+		{
+			// printf("i::%d\n", i);
+			posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
+			// setStatusSess(posSess, WAIT_QUICH_QUES);
+			// printf("posSess:%d\n", posSess);
+			// printf("posSessST:%d\n", sess[posSess].sessStatus);
+			if (sessStatusIs(posSess, PLAYING))
+			{
+				printf("bbbbbbb\n");
+				char *res = getHelpAdvise(posRoom);
+				respond(rooms[posRoom].connd[i], res);// thong bao tro thanh chu phong
+			}
+			setSessRoom(posSess, rooms[posRoom]);
+		}
+	}
+	return "NULL";
 }
 
 //Get money reward from number of question answered
@@ -1261,6 +1364,13 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 		// printSession(pos);
 		printf("session status:%d\n",sess[pos].sessStatus);
 		return answQuickCodeProcess(messAcgument, pos);
+	}
+
+	if (strcmp(messCode, ANSW) == 0 && pos != -1 && sessStatusIs(pos, HELP_ADVISORY) )
+	{
+		// printSession(pos);
+		printf("session status:%d\n",sess[pos].sessStatus);
+		return answHelpCodeProcess(messAcgument, pos, cliAddr);
 	}
 
 	/********messcode is LEAV**********/

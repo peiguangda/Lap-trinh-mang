@@ -245,6 +245,10 @@ char *makeFull(char respond[])
 	{
 		return "Can't use this feature";
 	}
+	if (strcmp(respond, C_HELP_ADVISORY_OK) == 0)
+	{
+		return "Please wait!";
+	}
 	else
 		return respond;
 }
@@ -295,7 +299,7 @@ int main(int argc, char const *argv[])
 		} else { 
 			printf("\nRespond from server:\n%s\n", makeFull(respond));
 			printf("\n-----------------------------------------------\n");
-			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 || strcmp(respond, C_WAIT) == 0)
+			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 || strcmp(respond, C_WAIT) == 0 || strcmp(respond, C_HELP_ADVISORY_OK) == 0)
 			{
 				if (!receive(client_sock, respond)){
 					printf("message receive fails\n");
