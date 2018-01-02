@@ -60,6 +60,10 @@
 #define C_YOU_STOP_15 "215"
 #define C_YOU_ARE_KEY "101"
 #define C_WAIT "102"
+#define C_ALL_ROOM_INCORRECT_K "999"
+#define C_ALL_ROOM_INCORRECT_M "998"
+#define C_LOG_SEQ_WRONG "888" 
+#define C_NOT_ROOM_MASTER "777" 
 
 #define BLOCKED 0
 #define ACTIVE 1
@@ -87,170 +91,113 @@ char *makeFull(char respond[])
 {
 	if (strcmp(respond, C_IN_ROOM) == 0)
 	{
-		return "In room successfully, please wait until all the room signaled the start command!";
+		return "WAIT THE START COMMAND!";
 	}
 	if (strcmp(respond, C_FOUND_ID) == 0)
 	{
-		return "Username ok, please enter the password!";
+		return "ENTER THE PASSWORD:";
 	} 
 	if (strcmp(respond, C_NOT_FOUND_ID) == 0)
 	{
-		return "User incorrect, try again";
+		return "USER INCORRECT, TRY AGAIN:";
 	}
 	if (strcmp(respond, C_NOT_FOUND_PASSWORD) == 0)
 	{
-		return "Password incorrect , login fails, try again!";
+		return "PASS INCORRECT, TRY AGAIN:";
 	}
 	if (strcmp(respond, C_LOGOUT_OK) == 0)
 	{
-		return "Logout successful!";
+		return "LOGOUT SUCCESSFUL!";
 	}
 	if (strcmp(respond, C_LOGOUT_FAILS) == 0)
 	{
-		return "Logout fails";
+		return "LOGOUT FAILS";
 	}
 	if (strcmp(respond, C_BLOCK) == 0)
 	{
-		return "User blocked, try again!";
+		return "USER BLOCKED, TRY AGAIN:";
 	}
 	if (strcmp(respond, C_NEW_USER) == 0)
 	{
-		return "Create new user, enter pass for new user";
+		return "USER VALID, ENTER PASSWORD:";
 	}
 	if (strcmp(respond, C_SAME_USER) == 0)
 	{
-		return "User exits, please choose other name";
+		return "USER EXITS, PLEASE CHOOSE OTHER NAME:";
 	}
 	if (strcmp(respond, C_INCORRECT_PASS) == 0)
 	{
-		return "Pass is too short, please enter pass >= 5 character";
+		return "PASS IS TOO SHORT, PLEASE ENTER PASS >= 5 CHARACTER:";
 	}
 	if (strcmp(respond, C_CORRECT_CODE) == 0)
 	{
-		return "Ok, user is created, Please sign in now!";
+		return "USER IS CREATED, LOGIN NOW:";
 	}
 	if (strcmp(respond, C_CRE_ROOM_SUC) == 0)
 	{
-		return "Ok, the room is created, \"STAR ID_ROOM\" to start game!";
+		return "THE ROOM IS CREATED, COMMAND \"STAR\" TO START GAME:";
 	}
 	if (strcmp(respond, C_A_QQ_INCORRECT) == 0)
 	{
-		return "Sorry, you answered wrong or slow to become the main player!";
+		return "SORRY, YOU ANSWERED WRONG OR TOO SLOW!";
 	}
-	if (strcmp(respond, C_YOU_WIN) == 0)
-	{
-		return "You are the winner, really good, answer 15 questions!";
-	}
+	
 	if (strcmp(respond, C_CRE_ROOM_FAI) == 0)
 	{
-		return "The room id is exists! Create a room with another id!";
+		return "ROOM ID IS EXISTS! CHOOSE ANOTHER ID :";
 	}
 	if (strcmp(respond, C_OUT_ROOM) == 0)
 	{
-		return "The room id is not exists or the room is playing!";
-	}
-	if (strcmp(respond, C_YOU_LOSE) == 0)
-	{
-		return "Regrettably, you have to stop the game here to give way to other players!";
-	}
-	if (strcmp(respond, C_YOU_LOSE_1) == 0)
-	{
-		return "Regrettably, You have to leave with a bonus of 0 VND!";
-	}
-	if (strcmp(respond, C_YOU_LOSE_2) == 0)
-	{
-		return "Regrettably, You have to leave with a bonus of 5.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_LOSE_3) == 0)
-	{
-		return "Regrettably, You have to leave with a bonus of 20.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_1) == 0)
-	{
-		return "You had stop this game. Your reward is 0 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_2) == 0)
-	{
-		return "You had stop this game. Your reward is 1.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_3) == 0)
-	{
-		return "You had stop this game. Your reward is 2.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_4) == 0)
-	{
-		return "You had stop this game. Your reward is 3.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_5) == 0)
-	{
-		return "You had stop this game. Your reward is 4.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_6) == 0)
-	{
-		return "You had stop this game. Your reward is 5.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_7) == 0)
-	{
-		return "You had stop this game. Your reward is 7.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_8) == 0)
-	{
-		return "You had stop this game. Your reward is 10.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_9) == 0)
-	{
-		return "You had stop this game. Your reward is 12.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_10) == 0)
-	{
-		return "You had stop this game. Your reward is 15.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_11) == 0)
-	{
-		return "You had stop this game. Your reward is 20.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_12) == 0)
-	{
-		return "You had stop this game. Your reward is 30.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_13) == 0)
-	{
-		return "You had stop this game. Your reward is 50.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_14) == 0)
-	{
-		return "You had stop this game. Your reward is 65.000.000 VND!";
-	}
-	if (strcmp(respond, C_YOU_STOP_15) == 0)
-	{
-		return "You had stop this game. Your reward is 80.000.000 VND!";
+		return "ID IS NOT EXISTS OR THE ROOM IS PLAYING!\n>TRY AGAIN :";
 	}
 	if (strcmp(respond, C_YOU_ARE_KEY) == 0)
 	{
-		return "The main player loses, you become the master of the room!";
+		return "THE MAIN PLAYER LOSES, YOU BECOME THE MASTER OF THE ROOM!";
 	}
 	if (strcmp(respond, C_WAIT) == 0)
 	{
-		return "Main players lose, waiting for new owners start command room!";
-	}
-	if (strcmp(respond, C_LEAV_ROOM_SUC) == 0)
-	{
-		return "Leave room successful!";
+		return "MAIN PLAYERS LOSE, WAITING FOR NEW OWNERS START COMMAND ROOM\nCOMMAND \"STAR\" TO START GAME :";
 	}
 	if (strcmp(respond, C_LEAV_ROOM_FAI) == 0)
 	{
-		return "Can't leave this room!";
+		return "CAN'T LEAVE THIS ROOM!";
 	}
 	if (strcmp(respond, C_HELP_NOT_OK) == 0)
 	{
-		return "Can't use this feature";
+		return "CAN'T USE THIS FEATURE\n>CHOOSE OTHER HELP OR ANSWER NOW :";
 	}
 	if (strcmp(respond, C_HELP_ADVISORY_OK) == 0)
 	{
-		return "Please wait!";
+		return "PLEASE WAIT!";
+	}
+	if (strcmp(respond, C_ALL_ROOM_INCORRECT_K) == 0)
+	{
+		return "ALL OF MEMBER WRONG\n>TRY AGAIN, COMMAND \"STAR\" TO START GAME:";
+	}
+	if (strcmp(respond, C_ALL_ROOM_INCORRECT_M) == 0)
+	{
+		return "ALL OF MEMBER WRONG! PLEASE WAIT!\n";
+	}
+	if (strcmp(respond, C_LOG_SEQ_WRONG) == 0)
+	{
+		return "WRONG SEQUENCE!\n>TRY AGAIN :";
+	}
+	if (strcmp(respond, C_NOT_ROOM_MASTER) == 0)
+	{
+		return "YOU ARE NOT ROOM MASTER!\n>TRY AGAIN :";
 	}
 	else
 		return respond;
+}
+
+void menu()
+{
+	printf("*************************************************\n");
+	printf("**********         WELCOME       ****************\n");
+	printf("*******     WHO IS A MILLIONAIRE     ************\n");
+	printf("**********           ???          ***************\n");
+	printf("*************************************************\n\n");
+	printf(">ENTER YOUR COMMAND:");
 }
 
 
@@ -277,11 +224,10 @@ int main(int argc, char const *argv[])
 		printf("\nError!Can not connect to sever! Client exit imediately! ");
 		return 0;
 	}
-		
-	
+
+	menu();
 	while(1){
 		strcpy(buff,"");
-		printf("\nEnter your request:");
 		memset(buff,'\0',(strlen(buff)+1));
 		fgets(buff, BUFF_SIZE, stdin);		
 		msg_len = strlen(buff);
@@ -290,28 +236,26 @@ int main(int argc, char const *argv[])
 		//send message
 		if (!request(client_sock, buff)){
 			printf("message send fails\n");
-		} else{
-			printf("\n-----------------------------------------------\n");
 		}
 		
 		if (!receive(client_sock, respond)){
 			printf("message receive fails\n");
-		} else { 
-			printf("\nRespond from server:\n%s\n", makeFull(respond));
-			printf("\n-----------------------------------------------\n");
-			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 || strcmp(respond, C_WAIT) == 0 || strcmp(respond, C_HELP_ADVISORY_OK) == 0)
+		} else {
+			printf("*********************************\n");
+			printf(">%s", makeFull(respond));
+			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 
+				|| strcmp(respond, C_WAIT) == 0 || strcmp(respond, C_HELP_ADVISORY_OK) == 0 || strcmp(respond, C_ALL_ROOM_INCORRECT_M) == 0)
 			{
+				bzero(respond,600);
 				if (!receive(client_sock, respond)){
 					printf("message receive fails\n");
-				} else { 
-					printf("\nRespond from server:\n%s\n", respond);
-					printf("\n-----------------------------------------------\n");
-				}
+				} else 
+					printf("*********************************\n");
+					printf(">%s", makeFull(respond));
 			}
 		}
 	}
 	
-	//Step 4: Close socket
 	close(client_sock);
 	return 0;
 }
