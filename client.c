@@ -26,15 +26,15 @@
 #define C_OUT_ROOM "107"
 #define C_A_QQ_CORRECT "010"
 #define C_A_QQ_INCORRECT "110"
-#define C_READY "011"
-#define C_NOT_READY "111"
-#define C_A_CORRECT "012"
-#define C_A_INCORRECT "112"
+#define C_A_CORRECT "011"
+#define C_A_INCORRECT "111"
 #define C_HELP_50_OK "020"
 #define C_HELP_ADVISORY_OK "021"
 #define C_HELP_NOT_OK "120"
-#define C_STOP_OK "030"
-#define C_STOP_NOT_OK "130"
+#define C_START_OK "030"
+#define C_START_NOT_OK "130" 
+#define C_STOP_OK "031"
+#define C_STOP_NOT_OK "131"
 #define C_CRE_ROOM_SUC "040"
 #define C_CRE_ROOM_FAI "140"
 #define C_LEAV_ROOM_SUC "041"
@@ -60,7 +60,6 @@
 #define C_YOU_STOP_14 "214"
 #define C_YOU_STOP_15 "215"
 #define C_YOU_ARE_KEY "060"
-#define C_NOT_ROOM_MASTER "160" 
 #define C_WAIT "161"
 #define C_ALL_ROOM_INCORRECT_K "170"
 #define C_ALL_ROOM_INCORRECT_M "171"
@@ -195,7 +194,11 @@ char *makeFull(char respond[])
 	{
 		return "WRONG SEQUENCE!\n>TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_NOT_ROOM_MASTER) == 0) //the user isn't master
+	if (strcmp(respond, C_START_OK) == 0) //the user isn't master
+	{
+		return "OK! LETS START !";
+	}
+	if (strcmp(respond, C_START_NOT_OK) == 0) //the user isn't master
 	{
 		return "YOU ARE NOT ROOM MASTER!\n>TRY AGAIN: ";
 	}
