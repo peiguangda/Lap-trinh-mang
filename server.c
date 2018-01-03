@@ -12,81 +12,81 @@
 #define INT_DIGITS 19
 #define BACKLOG 30
 #define BUFF_SIZE 8192
-#define USER "USER"
-#define PASS "PASS"
-#define LOUT "LOUT"
-#define SIGU "SIGU"
-#define SIGP "SIGP"
-#define SIGC "SIGC"
-#define HELP "HELP"
-#define ANSW "ANSW"
-#define REDY "REDY"
-#define JOIN "JOIN"
-#define STAR "STAR"
-#define STOP "STOP"
-#define CRRM "CRRM"
-#define LEAV "LEAV" 
+#define USER "USER" //username
+#define PASS "PASS" //password
+#define LOUT "LOUT" //log out
+#define SIGU "SIGU" //sign up
+#define SIGP "SIGP" //sign up password
+#define SIGC "SIGC" //sign up code/sign up capcha
+#define HELP "HELP" //help
+#define ANSW "ANSW" //answer
+#define REDY "REDY" //ready
+#define JOIN "JOIN" //join to a room
+#define STAR "STAR" //start
+#define STOP "STOP" //stop
+#define CRRM "CRRM" //create room
+#define LEAV "LEAV" //leave room 
 
 #define NIL "NIL" 
 #define C_LOG_SEQ_WRONG "888" 
 #define C_NOT_ROOM_MASTER "777" 
 
-#define C_FOUND_ID "00"
-#define C_NOT_FOUND_ID "01"
-#define C_FOUND_PASSWORD "10"
-#define C_NOT_FOUND_PASSWORD "11"
-#define C_LOGOUT_OK "20"
-#define C_LOGOUT_FAILS "21"
-#define C_BLOCK "31"
-#define C_NEW_USER "40"
-#define C_SAME_USER "41"
-#define C_CORRECT_PASS "50"
-#define C_INCORRECT_PASS "51"
-#define C_CORRECT_CODE "60"
-#define C_INCORRECT_CODE "61"
-#define C_IN_ROOM "70"
-#define C_OUT_ROOM "71"
-#define C_A_QQ_CORRECT "80"
-#define C_A_QQ_INCORRECT "81"
-#define C_READY "90"
-#define C_NOT_READY "91"
-#define C_A_CORRECT "04"
-#define C_A_INCORRECT "05"
-#define C_HELP_50_OK "14"
-#define C_HELP_ADVISORY_OK "15"
-#define C_HELP_NOT_OK "16"
-#define C_STOP_OK "24"
-#define C_STOP_NOT_OK "25"
-#define C_CRE_ROOM_SUC "34"
-#define C_CRE_ROOM_FAI "35"
-#define C_LEAV_ROOM_SUC "36"
-#define C_LEAV_ROOM_FAI "37"
-#define C_YOU_WIN "45"
-#define C_YOU_LOSE "44"
-#define C_YOU_LOSE_1 "100"
-#define C_YOU_LOSE_2 "200"
-#define C_YOU_LOSE_3 "300"
-#define C_YOU_STOP_1 "201"
-#define C_YOU_STOP_2 "202"
-#define C_YOU_STOP_3 "203"
-#define C_YOU_STOP_4 "204"
-#define C_YOU_STOP_5 "205"
-#define C_YOU_STOP_6 "206"
-#define C_YOU_STOP_7 "207"
-#define C_YOU_STOP_8 "208"
-#define C_YOU_STOP_9 "209"
-#define C_YOU_STOP_10 "210"
-#define C_YOU_STOP_11 "211"
-#define C_YOU_STOP_12 "212"
-#define C_YOU_STOP_13 "213"
-#define C_YOU_STOP_14 "214"
-#define C_YOU_STOP_15 "215"
-#define C_YOU_ARE_KEY "101"
-#define C_WAIT "102"
-#define C_ALL_ROOM_INCORRECT_K "999"
-#define C_ALL_ROOM_INCORRECT_M "998"
+#define C_FOUND_ID "00" //found ID
+#define C_NOT_FOUND_ID "01" //not fount id
+#define C_FOUND_PASSWORD "10" //found password
+#define C_NOT_FOUND_PASSWORD "11" //not found password
+#define C_LOGOUT_OK "20" //log out successful
+#define C_LOGOUT_FAILS "21" //log out fails
+#define C_BLOCK "31" //block
+#define C_NEW_USER "40" //user which input is valid, create new user
+#define C_SAME_USER "41" //user is duplicate
+#define C_CORRECT_PASS "50" //pass is correct
+#define C_INCORRECT_PASS "51" //pass incorrect
+#define C_CORRECT_CODE "60" //code is correct
+#define C_INCORRECT_CODE "61" //code is incorrect
+#define C_IN_ROOM "70" //in room
+#define C_OUT_ROOM "71" //out room
+#define C_A_QQ_CORRECT "80" //answer quick question correct
+#define C_A_QQ_INCORRECT "81" //answer quick question incorrect
+#define C_READY "90" //ready
+#define C_NOT_READY "91" //not ready
+#define C_A_CORRECT "04" //answer correct
+#define C_A_INCORRECT "05" //answer incorrect
+#define C_HELP_50_OK "14" //help 5050 success
+#define C_HELP_ADVISORY_OK "15" //help advisory success
+#define C_HELP_NOT_OK "16" //help feature not success
+#define C_STOP_OK "24" //stop success
+#define C_STOP_NOT_OK "25" //stop not success
+#define C_CRE_ROOM_SUC "34" //create room success
+#define C_CRE_ROOM_FAI "35" //create room fails
+#define C_LEAV_ROOM_SUC "36" //leave room success
+#define C_LEAV_ROOM_FAI "37" //leave room fails
+#define C_YOU_WIN "45" //you are winner
+#define C_YOU_LOSE "44" //you are loser
+#define C_YOU_LOSE_1 "100" //lost in lever 1
+#define C_YOU_LOSE_2 "200" //lost in lever 2
+#define C_YOU_LOSE_3 "300" //lost in lever 2
+#define C_YOU_STOP_1 "201" //stop in question 1
+#define C_YOU_STOP_2 "202" //stop in question 2
+#define C_YOU_STOP_3 "203" //stop in question 3
+#define C_YOU_STOP_4 "204" //stop in question 4
+#define C_YOU_STOP_5 "205" //stop in question 5
+#define C_YOU_STOP_6 "206" //stop in question 6
+#define C_YOU_STOP_7 "207" //stop in question 7
+#define C_YOU_STOP_8 "208" //stop in question 8
+#define C_YOU_STOP_9 "209" //stop in question 9
+#define C_YOU_STOP_10 "210" //stop in question 10
+#define C_YOU_STOP_11 "211" //stop in question 11
+#define C_YOU_STOP_12 "212" //stop in question 12
+#define C_YOU_STOP_13 "213" //stop in question 13
+#define C_YOU_STOP_14 "214" //stop in question 14
+#define C_YOU_STOP_15 "215" //stop in question 15
+#define C_YOU_ARE_KEY "101" //become the master of room
+#define C_WAIT "102" //wait other person to start
+#define C_ALL_ROOM_INCORRECT_K "999" //all room incorrect (key)
+#define C_ALL_ROOM_INCORRECT_M "998" //all room incorrect (member)
 
-#define NOT_IDENTIFIED_USER 1
+#define NOT_IDENTIFIED_USER 1 
 #define NOT_AUTHENTICATED 2
 #define AUTHENTICATED 3
 #define START_SIGNUP 4
@@ -240,7 +240,7 @@ struct Room newRoom(int id, int connd, struct User user)
 	return rooms[countRoom-1];
 }
 
-//
+//add question to leverlists
 int addLeverList(int id, int lv){
 	switch(lv){
 		case 1 :
@@ -316,6 +316,7 @@ int isValidMessage(char message[], char messCode[], char messAcgument[])
 	return 1;
 }
  
+//receive message
 int receive(int conn_sock, char message[])
 {
 	int bytes_received = recv(conn_sock, message, BUFF_SIZE -1, 0);
@@ -326,6 +327,7 @@ int receive(int conn_sock, char message[])
 	} else return 0;
 }
 
+//send to client
 int respond(int conn_sock, char respond[])
 {
 	if (send(conn_sock, respond, strlen(respond), 0) > 0)
@@ -476,6 +478,7 @@ void removeRoom(int k)
 	countRoom--;
 }
 
+//check if there are some rooms have no user, delete it
 void checkListRoom()
 {
 	for (int i = 0; i < countRoom; ++i)
@@ -488,10 +491,11 @@ void checkListRoom()
 	}
 }
 
+//check pass, which must has length >= 5
 int checkPass(char pass[])
 {
 	int i;
-	if (strlen(pass) < 5) return 0; //Password has min_length is 5
+	if (strlen(pass) < 5) return 0; //min length is 5
 	else return 1;
 }
 
@@ -519,36 +523,43 @@ int findSessSignByAddr(struct sockaddr_in cliAddr, int connd)
 	return -1;
 }
 
+//set status for sessionSignup
 void setStatusSessSign(int pos, int status)
 {
 	sessSignup[pos].sessStatus = status;
 }
 
+//check status of sessionSignup
 int sessSignStatusIs(int pos, int status)
 {
 	return sessSignup[pos].sessStatus == status;
 }
 
+//set status for session
 void setStatusSess(int pos, int status)
 {
 	sess[pos].sessStatus = status;
 }
 
+//set room in a session
 void setSessRoom(int pos, struct Room room)
 {
 	sess[pos].room = room;
 }
 
+//check room status
 int roomStatusIs(int pos, int status)
 {
 	return rooms[pos].roomStatus == status;
 }
 
+//set status a room in a session
 void setStatusRoom(int pos, int status)
 {
 	rooms[pos].roomStatus = status;
 }
 
+//check status session
 int sessStatusIs(int pos, int status)
 {
 	return sess[pos].sessStatus == status;
@@ -575,7 +586,7 @@ char *userCodeProcess(struct sockaddr_in cliAddr, int connd, int pos, int i)
 	return C_LOG_SEQ_WRONG;
 }
 
-//Process while Code is PASS
+//process while Code is PASS
 char *passCodeProcess(char messAcgument[], int pos)
 {
 	int i;
@@ -593,28 +604,28 @@ char *passCodeProcess(char messAcgument[], int pos)
 	{                                                
 		sess[pos].countLogin++;    			//countLogin + 1
 		if (sess[pos].countLogin >= MAX_NUMBER_LOGIN){  //check count login is > max?
-			sess[pos].user.userStatus = BLOCKED;	//block user 
+			sess[pos].user.userStatus = BLOCKED; //block user 
 			i = findUserById (sess[pos].user.id);
 			users[i].userStatus = BLOCKED;
-			writeUserToFile(FILE_NAME);			//save to file
+			writeUserToFile(FILE_NAME);	//save to file
 			return C_BLOCK;
 		} else
 			return C_NOT_FOUND_PASSWORD;
 	}
 }
 
-//Process while Code is CRRM, create a new room
+//process while Code is CRRM, create a new room
 char *crrmCodeProcess(char messAcgument[], int pos)
 {
 	struct Room room;
-	int i = findRoomById(atoi(messAcgument));
+	int i = findRoomById(atoi(messAcgument)); //i is the room user want to create
 	if (i >= 0) {
 		return C_CRE_ROOM_FAI; //room exist
 	} else {
 		room = newRoom(atoi(messAcgument), sess[pos].connd, sess[pos].user);
-		setStatusSess(pos, WAIT_QUICH_QUES);
+		setStatusSess(pos, WAIT_QUICH_QUES); //set status is wait for quick question
 		setSessRoom(pos, room);
-		return C_CRE_ROOM_SUC;
+		return C_CRE_ROOM_SUC; //done
 	}
 }
 
@@ -628,11 +639,11 @@ void addUserToRoom(int i, int connd,struct User user)
 		rooms[i].connd[count] = connd;
 		rooms[i].countUser ++;
 	}else {
-		printf("room full slot\n");
+		printf("Room full\n");
 	}
 }
 
-//Process while Code is ROOM
+//process while Code is ROOM
 char *joinCodeProcess(char messAcgument[], int pos, int connd)
 {
 	int i = findRoomById(atoi(messAcgument));
@@ -641,34 +652,34 @@ char *joinCodeProcess(char messAcgument[], int pos, int connd)
 	} else if (roomStatusIs(i, PLAY)){ //room is playing now
 		return C_OUT_ROOM;
 	}else {
-		addUserToRoom(i, connd, sess[pos].user);
+		addUserToRoom(i, connd, sess[pos].user); //add user
 		setStatusSess(pos, WAIT_QUICH_QUES);
 		setSessRoom(pos, rooms[i]);
 		return C_IN_ROOM;
 	}
 }
 
-char *itoa(i)
-     int i;
+//change a number to string
+char *itoa(int i)
 {
-  /* Room for INT_DIGITS digits, - and '\0' */
-  static char buf[INT_DIGITS + 2];
-  char *p = buf + INT_DIGITS + 1;	/* points to terminating '\0' */
-  if (i >= 0) {
+   	//room for INT_DIGITS digits, - and '\0' 
+  	static char buf[INT_DIGITS + 2];
+  	char *p = buf + INT_DIGITS + 1;	//points to terminating 
+  	if (i >= 0) {
     do {
-      *--p = '0' + (i % 10);
-      i /= 10;
+      	*--p = '0' + (i % 10);
+      	i /= 10;
     } while (i != 0);
     return p;
-  }
-  else {			/* i < 0 */
-    do {
-      *--p = '0' - (i % 10);
-      i /= 10;
-    } while (i != 0);
-    *--p = '-';
-  }
-  return p;
+  	}
+  	else {	//i < 0 
+    	do {
+      		*--p = '0' - (i % 10);
+      		i /= 10;
+    	} while (i != 0);
+    	*--p = '-';
+  	}
+  	return p;
 }
 
 
@@ -676,11 +687,13 @@ char *itoa(i)
 char *makeFullQues(Question question, int countQues)
 {
 	bzero(content,600);
-	char str[1];
-	if (countQues == 0){
-		strcpy(content, "Quick question");
-	} else {
-		strcpy(content, "Question");
+	char str[2];
+	sprintf(str,"%d",countQues); //number of current question
+	if (countQues == 0){ //is quick question
+		strcpy(content, "Quick question"); 
+	} else { //main question
+		strcpy(content, "Question ");
+		strcat(content, str);
 	}
 	strcat(content, ": ");
 	strcat(content,question.content);
@@ -696,7 +709,7 @@ char *makeFullQues(Question question, int countQues)
 	return content;
 }
 
-//Process while Code is STAR
+//process while Code is STAR
 char *starCodeProcess(int pos, struct sockaddr_in cliAddr)
 {
 	int posRoom, posSess, random;
@@ -725,6 +738,7 @@ char *starCodeProcess(int pos, struct sockaddr_in cliAddr)
 	}
 }
 
+//view question
 void view(Question q){
 	printf("%s\n%s\n%s\n%s\n%s\n%s\n", q.content, q.choiceA, q.choiceB, q.choiceC, q.choiceD, q.answer);
 }
@@ -732,29 +746,28 @@ void view(Question q){
 //get question random
 Question getQuestion(int pos)
 {
-	// Question question;
 	int random;
-	switch(sess[pos].room.countQues) {
+	switch(sess[pos].room.countQues) {//current question
 		case 0:
 		case 1:
 		case 2:
 		case 3:
 		case 4:
-			random = randomQuestion(easyList) + QUES_IN_LEVER;
+			random = randomQuestion(easyList) + QUES_IN_LEVER; //random in easy list
 			break;
 		case 5:
 		case 6:
 		case 7:
 		case 8:
 		case 9:
-			random = randomQuestion(mediumList) + QUES_IN_LEVER * 2;
+			random = randomQuestion(mediumList) + QUES_IN_LEVER * 2; //random in medium list
 			break;
 		case 10:
 		case 11:
 		case 12:
 		case 13:
 		case 14:
-			random = randomQuestion(hardList) + QUES_IN_LEVER * 3;
+			random = randomQuestion(hardList) + QUES_IN_LEVER * 3; //random in hard list
 			break;
 		case 15:
 			break;
@@ -765,6 +778,7 @@ Question getQuestion(int pos)
 	return questionList[random];
 }
 
+//check status of session
 char *checkStatusSess(int pos, struct sockaddr_in cliAddr)
 {
 	int count = 0,posRoom = findRoomById(sess[pos].room.id);
@@ -791,7 +805,7 @@ char *checkStatusSess(int pos, struct sockaddr_in cliAddr)
 	else return C_A_QQ_INCORRECT;
 }
 
-//Process while Code is ANSW -quick question
+//process while Code is ANSW -quick question
 char *answQuickCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 {
 	Question question;
@@ -808,24 +822,25 @@ char *answQuickCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliA
 	}else{
 		setStatusSess(pos, WATCHING);
 		return checkStatusSess(pos, cliAddr);
-		// return C_A_QQ_INCORRECT;
 	}
 }
 
+//get bonus when user have wrong answer in a level
 char *getCodeBonus(int bonus_level)
 {
 	switch(bonus_level){
 		case 0:
-			return C_YOU_LOSE_1;
+			return C_YOU_LOSE_1; //0
 		case 1:
-			return C_YOU_LOSE_2;
+			return C_YOU_LOSE_2; //bonus of question 5
 		case 2:
-			return C_YOU_LOSE_3;
+			return C_YOU_LOSE_3; //bonus of question 10
 		default:
 			return NIL;
 	}
 }
 
+//find user in a room
 int findUserInRoom(int posRoom, int pos)
 {
 	for (int i = 0; i <= rooms[posRoom].countUser; ++i)
@@ -837,6 +852,7 @@ int findUserInRoom(int posRoom, int pos)
 	}
 }
 
+//kick user from a room
 void kickUser(int posRoom, int posUserInRoom)
 {
 	for (int i = posUserInRoom; i < rooms[posRoom].countUser; ++i)
@@ -847,15 +863,16 @@ void kickUser(int posRoom, int posUserInRoom)
 	rooms[posRoom].countUser--;
 }
 
-//Process while Code is ANSW --main
+//process while Code is ANSW --in game
 char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 {
 	Question question;
 	int posSess;
 	int posRoom = findRoomById(sess[pos].room.id);
 	int countQues = rooms[posRoom].countQues;
-	printf("countQues: %d\n",countQues );
-	if(strlen(messAcgument) == 1 && strcmp(messAcgument, rooms[posRoom].questions[countQues-1].answer) == 0){
+	printf("Question : %d\n",countQues );
+	if(strlen(messAcgument) == 1 && strcmp(messAcgument, rooms[posRoom].questions[countQues-1].answer) == 0)
+	{
 		//return question to main && save question to list question of session && tang so cau tra loi dung len +1
 		if (rooms[posRoom].countQues >= MAX_QUESTION)
 		{
@@ -865,16 +882,16 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 			rooms[posRoom].countQues = 0;
 			setStatusSess(pos, AUTHENTICATED);
 			int posUserInRoom = findUserInRoom(posRoom, pos);
-			kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
+			kickUser(posRoom, posUserInRoom); //because this user is lost, kick user 
 			for (int i = 0; i < rooms[posRoom].countUser; ++i)
 			{
 				int posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
 				setStatusSess(posSess, WAIT_QUICH_QUES);
 				if (i == 0)
 				{
-					respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
+					respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// send to client that "you are the master of this room"
 				}else {
-					respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
+					respond(rooms[posRoom].connd[i], C_WAIT);//send to client that "wait other person to start"
 				}
 				setSessRoom(posSess, rooms[posRoom]);
 			}
@@ -884,9 +901,10 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		rooms[posRoom].questions[countQues] = question;
 		rooms[posRoom].countQues++;
 		setSessRoom(pos, rooms[posRoom]);
-		char* s = makeFullQues(question, rooms[posRoom].countQues);
+		char* s = makeFullQues(question, rooms[posRoom].countQues); //full question
 		return s;
-	} else {
+	} else 
+	{
 		//incorrect
 		int bonus_level = countQues/5;
 		int posUserInRoom;
@@ -894,29 +912,28 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		setStatusRoom(posRoom, WAIT);
 		rooms[posRoom].countQues = 0;
 		setStatusSess(pos, AUTHENTICATED);
-		// tim user trong room
+		// find user in room
 		posUserInRoom = findUserInRoom(posRoom, pos);
-		kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
+		kickUser(posRoom, posUserInRoom); //because this user is lost, kick user
 		for (i = 0; i < rooms[posRoom].countUser; ++i)
 		{
 			posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
-			// sess[posSess].sessStatus = WAIT_QUICH_QUES;
 			setStatusSess(posSess, WAIT_QUICH_QUES);
 			if (i == 0)
 			{
-				respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
+				respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// send to client that "you are the master of this room"
 			}else {
-				respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
+				respond(rooms[posRoom].connd[i], C_WAIT);//send to client that "wait other person to start"
 			}
 			setSessRoom(posSess, rooms[posRoom]);
 		}
-		return getCodeBonus(bonus_level);//thong bao ban da ra ve voi so tien ...
+		return getCodeBonus(bonus_level);//get reward to this user : "you are in lever..., so you has ... "
 	} 
 	
 }
 
 
-//Process while Code is LOUT
+//process while Code is LOUT
 char *loutCodeProcess(char messAcgument[], int pos)
 {
 	if (strcmp(sess[pos].user.id, messAcgument) == 0) //check userId is valid?
@@ -937,12 +954,11 @@ char *siguCodeProcess(char messAcgument[],struct sockaddr_in cliAddr, int connd,
 	if (pos == -1) //if not found session
 	{
 		session = newSession(user, USERNAME_CREATED, cliAddr, connd);// create new session
-		addSessionSignup(session);                                   // add session
+		addSessionSignup(session);    // add session
 		return C_NEW_USER;
 	}
 	//found session
 	else if (sessSignStatusIs(pos, START_SIGNUP) || sessSignStatusIs(pos, USERNAME_CREATED)) {//found user != user of session
-		// sessSignup[pos].sessStatus = USERNAME_CREATED;
 		setStatusSessSign(pos, USERNAME_CREATED);
 		memcpy(&(sessSignup[pos].user), &user, sizeof(struct User));
 		return C_NEW_USER;
@@ -951,7 +967,7 @@ char *siguCodeProcess(char messAcgument[],struct sockaddr_in cliAddr, int connd,
 }
 
 
-//Process while Code is SIGP
+//process while Code is SIGP
 char *sigpCodeProcess(char messAcgument[], int posSign)
 {
 	int i;
@@ -965,7 +981,7 @@ char *sigpCodeProcess(char messAcgument[], int posSign)
 	else return C_INCORRECT_PASS;
 }
 
-//Process while Code is SIGC
+//process while Code is SIGC
 char *sigcCodeProcess(char messAcgument[], int pos)
 {
 	if (strcmp(sessSignup[pos].capcha, messAcgument) == 0) //check capcha
@@ -981,8 +997,9 @@ char *sigcCodeProcess(char messAcgument[], int pos)
 		return C_INCORRECT_CODE;
 }
 
-//Make right answer and random answer arranged
-void arrangeAnswer(){
+//make right answer and random answer arranged
+void arrangeAnswer()
+{
   	char temp;
  	if (answer5050[0] > answer5050[1])
   	{
@@ -1009,10 +1026,11 @@ char getRandom(char choice1, char choice2, char choice3)
 	}
 }
 
-//Help feature is 50-50
+//help feature is 50-50
 void help5050Process(Question question)
 {
 	int i = 0;
+	//choose a right answer and a wrong answer from other answer
 	switch(question.answer[0])
 	{
 		case 'A':
@@ -1038,6 +1056,7 @@ void help5050Process(Question question)
 		default:
 			break;
 	}
+	//add 2 answer to a string
 	while(i != 2)
 	{
 		if (i == 1) strcat(resultFromHelp5050, "\n");
@@ -1062,6 +1081,7 @@ void help5050Process(Question question)
 	}
 }
 
+//help feature is advisory
 char *helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr)
 {
 	int i, posSess;
@@ -1069,6 +1089,7 @@ char *helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr
 	int countQues = rooms[posRoom].countQues;
 	char* res = makeFullQues(question, countQues);
 
+	//send question to other player
 	for (i = 0; i <= rooms[posRoom].countUser; ++i)
 	{
 		posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
@@ -1081,28 +1102,22 @@ char *helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr
 	return NIL;
 }
 
-
-
-//Process while Code is HELP
+//process while Code is HELP
 char *helpCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 {
 	int count = sess[pos].room.countQues;
-	int posRoom = findRoomById(sess[pos].room.id);
-	Question question = sess[pos].room.questions[count -1];	
-	printf("help5050count1 :::::::::::::::::::: %d\n",rooms[posRoom].help5050count );
-	printf("help5050count1 id :::::::::::::::::::: %d\n",rooms[posRoom].id);
-	if (strcmp(messAcgument, "1") == 0)
+	int posRoom = findRoomById(sess[pos].room.id); //room position
+	Question question = sess[pos].room.questions[count -1];	 //get current question
+	if (strcmp(messAcgument, "1") == 0) //5050
 	{
 		if (rooms[posRoom].help5050count != 0) return C_HELP_NOT_OK;
 		else {
 			help5050Process(question);
 			rooms[posRoom].help5050count++;
-			printf("help5050count2 :::::::::::::::::::: %d\n",rooms[posRoom].help5050count);
-			printf("help5050count2 id :::::::::::::::::::: %d\n",rooms[posRoom].id);
 			return C_HELP_50_OK;
 		}
 	}
-	else if (strcmp(messAcgument, "2") == 0)
+	else if (strcmp(messAcgument, "2") == 0) //advisory
 	{
 		if (rooms[posRoom].helpAdvisoryCount != 0) return C_HELP_NOT_OK;
 		if (sess[pos].room.countUser <= 1) return C_HELP_NOT_OK;
@@ -1115,6 +1130,7 @@ char *helpCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	else return C_HELP_NOT_OK;
 }
 
+//get answers from other users
 char *getHelpAdvise(int posRoom)
 {
 	int countHelp = rooms[posRoom].countHelp;
@@ -1138,6 +1154,7 @@ char *getHelpAdvise(int posRoom)
 		}
 	}
 
+	//statistic ratio
 	perA = 100*a/(a+b+c+d);
 	perB = 100*b/(a+b+c+d);
 	perC = 100*c/(a+b+c+d);
@@ -1160,6 +1177,7 @@ char *getHelpAdvise(int posRoom)
 	return content;
 }
 
+//process while Code is ANSW and this user is helping the main
 char *answHelpCodeProcess(char messAcgument[],int pos, struct sockaddr_in cliAddr)
 {
 	int i, posSess, posRoom = findRoomById(sess[pos].room.id);
@@ -1175,7 +1193,7 @@ char *answHelpCodeProcess(char messAcgument[],int pos, struct sockaddr_in cliAdd
 			if (sessStatusIs(posSess, PLAYING))
 			{
 				char *res = getHelpAdvise(posRoom);
-				respond(rooms[posRoom].connd[i], res);// thong bao tro thanh chu phong
+				respond(rooms[posRoom].connd[i], res);// become master of this room
 			}
 			setSessRoom(posSess, rooms[posRoom]);
 		}
@@ -1183,7 +1201,7 @@ char *answHelpCodeProcess(char messAcgument[],int pos, struct sockaddr_in cliAdd
 	return NIL;
 }
 
-//Get money reward from number of question answered
+//get money reward from number of question answered
 char *getRewardFromQuestion(int reachQues)
 {
 	switch(reachQues)
@@ -1238,7 +1256,7 @@ char *getRewardFromQuestion(int reachQues)
 	}
 }
 
-//Process while Code is STOP
+//process while Code is STOP
 char *stopCodeProcess(int pos, struct sockaddr_in cliAddr)
 {
  	int posRoom = findRoomById(sess[pos].room.id);
@@ -1247,16 +1265,16 @@ char *stopCodeProcess(int pos, struct sockaddr_in cliAddr)
 	rooms[posRoom].countQues = 0;
 	setStatusSess(pos, AUTHENTICATED);
 	int posUserInRoom = findUserInRoom(posRoom, pos);
-	kickUser(posRoom, posUserInRoom); //kick user khoi room vi thua cuoc
+	kickUser(posRoom, posUserInRoom); //because this user is lost, kick user 
 	for (int i = 0; i < rooms[posRoom].countUser; ++i)
 	{
 		int posSess = findSessByAddr(cliAddr, rooms[posRoom].connd[i]); //find session of user in room
 		setStatusSess(posSess, WAIT_QUICH_QUES);
 		if (i == 0)
 		{
-			respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// thong bao tro thanh chu phong
+			respond(rooms[posRoom].connd[i], C_YOU_ARE_KEY);// send to client that "you are the master of this room"
 		}else {
-			respond(rooms[posRoom].connd[i], C_WAIT);//thong bao doi hieu lenh bat dau
+			respond(rooms[posRoom].connd[i], C_WAIT);//send to client that "wait other person to start"
 		}
 		setSessRoom(posSess, rooms[posRoom]);
 	}
@@ -1269,7 +1287,7 @@ char *leavCodeProcess(int pos, struct sockaddr_in cliAddr)
 	int posRoom = findRoomById(sess[pos].room.id);
 	int posUserInRoom = findUserInRoom(posRoom, pos);
 	kickUser(posRoom, posUserInRoom); //kick user 
-	setStatusSess(pos, AUTHENTICATED);
+	setStatusSess(pos, AUTHENTICATED); //set status to authenticated
 	return C_LEAV_ROOM_SUC;
 }
 
@@ -1377,6 +1395,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 }
 
+//add and show list room
 void addListRoomTo(char message[])
 {
 	if (countRoom > 0){
@@ -1534,6 +1553,7 @@ void changeFull(char message[])
 	}
 }
 
+//main function
 int main(int argc, char *argv[]) {
 	if (argc != 2) return -1;
  	int PORT = atoi(argv[1]);
