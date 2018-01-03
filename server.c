@@ -439,6 +439,7 @@ int removeSession(int k)
 	{
 		sess[k] = sess[k+1];
 	}
+	sessCount--;
 }
 
 //find session by cliAddr, return session position
@@ -1570,6 +1571,7 @@ int main(int argc, char *argv[]) {
 	struct sockaddr_in server_addr, client_addr;
 	int sin_size = sizeof(client_addr);
 	int listen_sock, fdmax, newfd,nbytes,i;
+	int posSess, posRoom, posUserInRoom;
 
 	if ((listen_sock = socket(AF_INET, SOCK_STREAM, 0)) <0) {
 		perror("Error socket()");
@@ -1619,8 +1621,24 @@ int main(int argc, char *argv[]) {
 					readFileUser (FILE_NAME);
 					//recieve data
 					if ((nbytes = recv(fds[i].fd, buff,BUFF_SIZE, 0)) <= 0) {
-						if (nbytes == 0)
+						if (nbytes == 0){
 							printf("Server: socket %d out\n", fds[i].fd);
+							printf("out roiiiii\n");
+							posSess = findSessByAddr(client_addr, fds[i].fd);
+							printf("posSess:%d\n", posSess);
+							if (posSess >= 0)
+							{
+								posRoom = findRoomById(sess[posSess].room.id);
+								printf("posRoom:%d\n", posRoom);
+								if (posRoom >= 0)
+								{
+									posUserInRoom = findUserInRoom(posRoom, posSess);
+									printf("posUserInRoom:%d\n", posUserInRoom);
+									kickUser(posRoom, posUserInRoom);
+								}
+							}
+							removeSession(posSess);
+						}
 						close(fds[i].fd);
 					}
 
