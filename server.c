@@ -46,15 +46,15 @@
 #define C_OUT_ROOM "107" //out room
 #define C_A_QQ_CORRECT "010" //answer quick question correct
 #define C_A_QQ_INCORRECT "110" //answer quick question incorrect
-#define C_READY "011" //ready
-#define C_NOT_READY "111" //not ready
-#define C_A_CORRECT "012" //answer correct
-#define C_A_INCORRECT "112" //answer incorrect
+#define C_A_CORRECT "011" //answer correct
+#define C_A_INCORRECT "111" //answer incorrect
 #define C_HELP_50_OK "020" //help 5050 success
 #define C_HELP_ADVISORY_OK "021" //help advisory success
 #define C_HELP_NOT_OK "120" //help feature not success
-#define C_STOP_OK "030" //stop success
-#define C_STOP_NOT_OK "130" //stop not success
+#define C_START_OK "030" //start ok
+#define C_START_NOT_OK "031" //start not OK. not a room master
+#define C_STOP_OK "031" //stop success
+#define C_STOP_NOT_OK "131" //stop not success
 #define C_CRE_ROOM_SUC "040" //create room success
 #define C_CRE_ROOM_FAI "140" //create room fails
 #define C_LEAV_ROOM_SUC "041" //leave room success
@@ -80,7 +80,6 @@
 #define C_YOU_STOP_14 "214" //stop in question 14
 #define C_YOU_STOP_15 "215" //stop in question 15
 #define C_YOU_ARE_KEY "060" //become the master of room
-#define C_NOT_ROOM_MASTER "160" //not a room master
 #define C_WAIT "161" //wait other person to start
 #define C_ALL_ROOM_INCORRECT_K "170" //all room incorrect (key)
 #define C_ALL_ROOM_INCORRECT_M "171" //all room incorrect (member)
@@ -683,13 +682,65 @@ char *itoa(int i)
   	return p;
 }
 
+char *addMoneyToQuestion(int countQues){
+	switch(countQues)
+	{
+		case 1 :
+			return "1.000.000 VND";
+			break;
+		case 2 :
+			return "2.000.000 VND";
+			break;
+		case 3 :
+			return "3.000.000 VND";
+			break;
+		case 4 :
+			return "4.000.000 VND";
+			break;
+		case 5 :
+			return "5.000.000 VND";
+			break;
+		case 6 :
+			return "7.000.000 VND";
+			break;
+		case 7 :
+			return "10.000.000 VND";
+			break;
+		case 8 :
+			return "12.000.000 VND";
+			break;
+		case 9 :
+			return "15.000.000 VND";
+			break;
+		case 10 :
+			return "20.000.000 VND";
+			break;
+		case 11 :
+			return "30.000.000 VND";
+			break;
+		case 12 :
+			return "50.000.000 VND";
+			break;
+		case 13 :
+			return "65.000.000 VND";
+			break;
+		case 14 :
+			return "80.000.000 VND";
+			break;
+		case 15 :
+			return "120.000.000 VND";
+			break;
+		default :
+			break;
+	}
+}
 
 //make full question (question + choose answer)
 char *makeFullQues(Question question, int countQues, int status)
 {
 	bzero(content,600);
-	char str[2];
-	sprintf(str,"%d",countQues); //number of current question
+	char currentQues[2];
+	sprintf(currentQues,"%d",countQues); //number of current question
 	if (status == 1)
 		strcpy(content, "Help me!!! "); 
 	else strcpy(content, ""); 
@@ -697,7 +748,10 @@ char *makeFullQues(Question question, int countQues, int status)
 		strcat(content, "Quick question"); 
 	} else { //main question
 		strcat(content, "Question ");
-		strcat(content, str);
+		strcat(content, currentQues);
+		strcat(content, "(");
+		strcat(content, addMoneyToQuestion(countQues));
+		strcat(content, ")");
 	}
 	strcat(content, ": ");
 	strcat(content,question.content);
@@ -738,7 +792,7 @@ char *starCodeProcess(int pos, struct sockaddr_in cliAddr)
 		}
 		return NIL;
 	}else {
-		return C_NOT_ROOM_MASTER;
+		return C_START_NOT_OK;
 	}
 }
 
@@ -877,7 +931,7 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 	printf("Question : %d\n",countQues );
 	if(strlen(messAcgument) == 1 && strcmp(messAcgument, rooms[posRoom].questions[countQues-1].answer) == 0)
 	{
-		//return question to main && save question to list question of session && tang so cau tra loi dung len +1
+		//return question to main && save question to list question of session && add countQues +1
 		if (rooms[posRoom].countQues >= MAX_QUESTION)
 		{
 			//todo set status all member of room to wait_QQ
