@@ -28,44 +28,42 @@
 #define LEAV "LEAV" //leave room 
 
 #define NIL "NIL" 
-#define C_LOG_SEQ_WRONG "888" 
-#define C_NOT_ROOM_MASTER "777" 
 
-#define C_FOUND_ID "00" //found ID
-#define C_NOT_FOUND_ID "01" //not fount id
-#define C_FOUND_PASSWORD "10" //found password
-#define C_NOT_FOUND_PASSWORD "11" //not found password
-#define C_LOGOUT_OK "20" //log out successful
-#define C_LOGOUT_FAILS "21" //log out fails
-#define C_BLOCK "31" //block
-#define C_NEW_USER "40" //user which input is valid, create new user
-#define C_SAME_USER "41" //user is duplicate
-#define C_CORRECT_PASS "50" //pass is correct
-#define C_INCORRECT_PASS "51" //pass incorrect
-#define C_CORRECT_CODE "60" //code is correct
-#define C_INCORRECT_CODE "61" //code is incorrect
-#define C_IN_ROOM "70" //in room
-#define C_OUT_ROOM "71" //out room
-#define C_A_QQ_CORRECT "80" //answer quick question correct
-#define C_A_QQ_INCORRECT "81" //answer quick question incorrect
-#define C_READY "90" //ready
-#define C_NOT_READY "91" //not ready
-#define C_A_CORRECT "04" //answer correct
-#define C_A_INCORRECT "05" //answer incorrect
-#define C_HELP_50_OK "14" //help 5050 success
-#define C_HELP_ADVISORY_OK "15" //help advisory success
-#define C_HELP_NOT_OK "16" //help feature not success
-#define C_STOP_OK "24" //stop success
-#define C_STOP_NOT_OK "25" //stop not success
-#define C_CRE_ROOM_SUC "34" //create room success
-#define C_CRE_ROOM_FAI "35" //create room fails
-#define C_LEAV_ROOM_SUC "36" //leave room success
-#define C_LEAV_ROOM_FAI "37" //leave room fails
-#define C_YOU_WIN "45" //you are winner
-#define C_YOU_LOSE "44" //you are loser
-#define C_YOU_LOSE_1 "100" //lost in lever 1
-#define C_YOU_LOSE_2 "200" //lost in lever 2
-#define C_YOU_LOSE_3 "300" //lost in lever 2
+#define C_FOUND_ID "000" //found ID
+#define C_NOT_FOUND_ID "100" //not fount id
+#define C_FOUND_PASSWORD "001" //found password
+#define C_NOT_FOUND_PASSWORD "101" //not found password
+#define C_LOGOUT_OK "002" //log out successful
+#define C_LOGOUT_FAILS "102" //log out fails
+#define C_BLOCK "003" //block
+#define C_NEW_USER "004" //user which input is valid, create new user
+#define C_SAME_USER "104" //user is duplicate
+#define C_CORRECT_PASS "005" //pass is correct
+#define C_INCORRECT_PASS "105" //pass incorrect
+#define C_CORRECT_CODE "006" //code is correct
+#define C_INCORRECT_CODE "106" //code is incorrect
+#define C_IN_ROOM "007" //in room
+#define C_OUT_ROOM "107" //out room
+#define C_A_QQ_CORRECT "010" //answer quick question correct
+#define C_A_QQ_INCORRECT "110" //answer quick question incorrect
+#define C_READY "011" //ready
+#define C_NOT_READY "111" //not ready
+#define C_A_CORRECT "012" //answer correct
+#define C_A_INCORRECT "112" //answer incorrect
+#define C_HELP_50_OK "020" //help 5050 success
+#define C_HELP_ADVISORY_OK "021" //help advisory success
+#define C_HELP_NOT_OK "120" //help feature not success
+#define C_STOP_OK "030" //stop success
+#define C_STOP_NOT_OK "130" //stop not success
+#define C_CRE_ROOM_SUC "040" //create room success
+#define C_CRE_ROOM_FAI "140" //create room fails
+#define C_LEAV_ROOM_SUC "041" //leave room success
+#define C_LEAV_ROOM_FAI "141" //leave room fails
+#define C_YOU_WIN "050" //you are winner
+#define C_YOU_LOSE "150" //you are loser
+#define C_YOU_LOSE_1 "151" //lost in lever 1
+#define C_YOU_LOSE_2 "152" //lost in lever 2
+#define C_YOU_LOSE_3 "153" //lost in lever 2
 #define C_YOU_STOP_1 "201" //stop in question 1
 #define C_YOU_STOP_2 "202" //stop in question 2
 #define C_YOU_STOP_3 "203" //stop in question 3
@@ -81,10 +79,12 @@
 #define C_YOU_STOP_13 "213" //stop in question 13
 #define C_YOU_STOP_14 "214" //stop in question 14
 #define C_YOU_STOP_15 "215" //stop in question 15
-#define C_YOU_ARE_KEY "101" //become the master of room
-#define C_WAIT "102" //wait other person to start
-#define C_ALL_ROOM_INCORRECT_K "999" //all room incorrect (key)
-#define C_ALL_ROOM_INCORRECT_M "998" //all room incorrect (member)
+#define C_YOU_ARE_KEY "060" //become the master of room
+#define C_NOT_ROOM_MASTER "160" //not a room master
+#define C_WAIT "161" //wait other person to start
+#define C_ALL_ROOM_INCORRECT_K "170" //all room incorrect (key)
+#define C_ALL_ROOM_INCORRECT_M "171" //all room incorrect (member)
+#define C_LOG_SEQ_WRONG "180" 
 
 #define NOT_IDENTIFIED_USER 1 
 #define NOT_AUTHENTICATED 2
@@ -105,7 +105,7 @@
 #define ACTIVE 1
 #define WAIT 0
 #define PLAY 1
-#define MAX_NUMBER_LOGIN 10
+#define MAX_NUMBER_LOGIN 5
 #define MAX_USER 10
 #define MAX_ROOM 10
 #define MAX_QUESTION 15
