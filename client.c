@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
 
 #define BUFF_SIZE 8192
 #define C_FOUND_ID "00"
@@ -65,9 +66,14 @@
 #define C_LOG_SEQ_WRONG "888" 
 #define C_NOT_ROOM_MASTER "777" 
 
+#define TIME_WAIT 20
 #define BLOCKED 0
 #define ACTIVE 1
 #define MAX 100
+
+fd_set          input_set;
+struct timeval  timeout;
+int             ready_for_reading = 0;
 
 //send request to server
 int request(int client_sock, char message[])
@@ -94,7 +100,7 @@ char *makeFull(char respond[])
 {
 	if (strcmp(respond, C_IN_ROOM) == 0) //user is in room
 	{
-		return "WAIT THE START COMMAND!";
+		return "WAIT THE START COMMAND!\n";
 	}
 	if (strcmp(respond, C_FOUND_ID) == 0) //found user id, now enter password
 	{
@@ -136,13 +142,17 @@ char *makeFull(char respond[])
 	{
 		return "USER IS CREATED, LOGIN NOW: ";
 	}
+	if (strcmp(respond, C_INCORRECT_CODE) == 0) //code which input is incorrect
+	{
+		return "CODE INVALID, TRY AGAIN: ";
+	}
 	if (strcmp(respond, C_CRE_ROOM_SUC) == 0) //create room success
 	{
 		return "THE ROOM IS CREATED, COMMAND \"STAR\" TO START GAME: ";
 	}
 	if (strcmp(respond, C_A_QQ_INCORRECT) == 0) //answer quick quizz us incorrect or slower than other user
 	{
-		return "SORRY, YOU ANSWERED WRONG OR TOO SLOW!";
+		return "SORRY, YOU ANSWERED WRONG OR TOO SLOW!\n";
 	}
 	
 	if (strcmp(respond, C_CRE_ROOM_FAI) == 0) //room is existed, create room become fails
@@ -163,7 +173,7 @@ char *makeFull(char respond[])
 	}
 	if (strcmp(respond, C_LEAV_ROOM_FAI) == 0) //can't leave room
 	{
-		return "CAN'T LEAVE THIS ROOM!";
+		return "CAN'T LEAVE THIS ROOM!\n";
 	}
 	if (strcmp(respond, C_HELP_NOT_OK) == 0) //can't use help feature 
 	{
@@ -171,7 +181,7 @@ char *makeFull(char respond[])
 	}
 	if (strcmp(respond, C_HELP_ADVISORY_OK) == 0) //wait the advisory from other user
 	{
-		return "PLEASE WAIT!";
+		return "PLEASE WAIT!\n";
 	}
 	if (strcmp(respond, C_ALL_ROOM_INCORRECT_K) == 0) //all members of this room answer incorrected
 	{
@@ -204,6 +214,18 @@ void menu()
 	printf(">ENTER YOUR COMMAND: ");
 }
 
+void setTimeout()
+{
+	/* Empty the FD Set */
+    FD_ZERO(&input_set );
+    /* Listen to the input descriptor */
+    FD_SET(0, &input_set);
+
+    /* Waiting for some seconds */
+    timeout.tv_sec = TIME_WAIT;    // WAIT seconds
+    timeout.tv_usec = 0;    // 0 milliseconds
+}
+
 //main function
 int main(int argc, char const *argv[])
 {
@@ -213,6 +235,7 @@ int main(int argc, char const *argv[])
 	char buff[BUFF_SIZE + 1],respond[BUFF_SIZE];
 	struct sockaddr_in server_addr; 
 	int msg_len, bytes_sent, bytes_received, check;
+	
 	
 	if (argc != 3) exit(1);
 	SERVER_PORT = atoi(argv[2]);
@@ -231,12 +254,31 @@ int main(int argc, char const *argv[])
 		printf("\nError!Can not connect to sever! Client exit imediately! ");
 		return 0;
 	}
+	setTimeout();
 
 	menu();
 	while(1){
 		strcpy(buff,"");
 		memset(buff,'\0',(strlen(buff)+1));
-		fgets(buff, BUFF_SIZE, stdin);		
+		if ((respond[0] == 'Q'&& respond[1] == 'u' && respond[2] == 'i') || (respond[0] == 'H'&& respond[1] == 'e' && respond[2] == 'l'))
+		{
+			printf("\n*********************************\n");
+			ready_for_reading = select(1, &input_set, NULL, NULL, &timeout);
+			if (ready_for_reading == -1) {
+		        printf("Unable to read your input\n");
+		        return -1;
+		    }
+			if (ready_for_reading){
+				printf("*********************************\n");
+				fgets(buff, BUFF_SIZE, stdin);
+			}
+			else{
+				strcpy(buff,"ANSW XYZV\n");
+			}
+			setTimeout();
+		} else {
+			fgets(buff, BUFF_SIZE, stdin);		
+		}
 		msg_len = strlen(buff);
 		if (msg_len == 1) break;
 		

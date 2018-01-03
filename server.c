@@ -684,15 +684,18 @@ char *itoa(int i)
 
 
 //make full question (question + choose answer)
-char *makeFullQues(Question question, int countQues)
+char *makeFullQues(Question question, int countQues, int status)
 {
 	bzero(content,600);
 	char str[2];
 	sprintf(str,"%d",countQues); //number of current question
+	if (status == 1)
+		strcpy(content, "Help me!!! "); 
+	else strcpy(content, ""); 
 	if (countQues == 0){ //is quick question
-		strcpy(content, "Quick question"); 
+		strcat(content, "Quick question"); 
 	} else { //main question
-		strcpy(content, "Question ");
+		strcat(content, "Question ");
 		strcat(content, str);
 	}
 	strcat(content, ": ");
@@ -723,7 +726,7 @@ char *starCodeProcess(int pos, struct sockaddr_in cliAddr)
 		random = randomQuestion(easyList); //random quick question
 		quickQues = questionList[random];
 		quickQues.quesStatus = 0; //There are currently no correct players
-		char* res = makeFullQues(quickQues, rooms[posRoom].countQues);
+		char* res = makeFullQues(quickQues, rooms[posRoom].countQues, 0);
 
 		for (i = 0; i <= rooms[posRoom].countUser; ++i)
 		{
@@ -818,7 +821,7 @@ char *answQuickCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliA
 		rooms[posRoom].questions[0] = question;
 		rooms[posRoom].countQues++;
 		setSessRoom(pos, rooms[posRoom]);
-		return makeFullQues(question, rooms[posRoom].countQues);
+		return makeFullQues(question, rooms[posRoom].countQues,0);
 	}else{
 		setStatusSess(pos, WATCHING);
 		return checkStatusSess(pos, cliAddr);
@@ -901,7 +904,7 @@ char *answCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 		rooms[posRoom].questions[countQues] = question;
 		rooms[posRoom].countQues++;
 		setSessRoom(pos, rooms[posRoom]);
-		char* s = makeFullQues(question, rooms[posRoom].countQues); //full question
+		char* s = makeFullQues(question, rooms[posRoom].countQues,0); //full question
 		return s;
 	} else 
 	{
@@ -1087,7 +1090,7 @@ char *helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr
 	int i, posSess;
 	int posRoom = findRoomById(sess[pos].room.id);
 	int countQues = rooms[posRoom].countQues;
-	char* res = makeFullQues(question, countQues);
+	char* res = makeFullQues(question, countQues, 1);
 
 	//send question to other player
 	for (i = 0; i <= rooms[posRoom].countUser; ++i)
@@ -1155,10 +1158,14 @@ char *getHelpAdvise(int posRoom)
 	}
 
 	//statistic ratio
-	perA = 100*a/(a+b+c+d);
-	perB = 100*b/(a+b+c+d);
-	perC = 100*c/(a+b+c+d);
-	perD = 100*d/(a+b+c+d);
+	if (a+b+c+d == 0){
+		perA = 0; perB = 0; perC = 0; perD = 0;
+	}else{
+		perA = 100*a/(a+b+c+d);
+		perB = 100*b/(a+b+c+d);
+		perC = 100*c/(a+b+c+d);
+		perD = 100*d/(a+b+c+d);
+	}
 	strcpy(content, "SUGGESTIONS FROM OTHER PLAYERS FOR YOU:");
 	strcat(content, "\nA:");
 	strcpy(str, itoa(perA));
@@ -1626,7 +1633,7 @@ int main(int argc, char *argv[]) {
 							strcpy(message, process(messCode, messAcgument, client_addr, fds[i].fd));
 							changeFull(message);
 						}else{
-							strcpy(message, "Syntax Error!\n");
+							strcpy(message, "Syntax Error!\nTRY AGAIN:");
 						}
 						//send data
 						if (strcmp(message, NIL) != 0)
