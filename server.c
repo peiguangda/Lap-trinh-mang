@@ -150,6 +150,8 @@ struct Room
 	int countQues;
 	int roomStatus;
 	int countHelp;
+	int help5050count;
+	int helpAdvisoryCount;
 	char helpAnsw[MAX_USER][2];
 };
 
@@ -174,12 +176,9 @@ int mediumList[QUES_IN_LEVER];
 int hardList[QUES_IN_LEVER];
 int easyIndex = 0, mediumIndex = 0, hardIndex = 0;
 
-int help5050count = 0;
 char answer5050[2];
 char resultFromHelp5050[100];
 char content[600];
-
-int helpAdvisoryCount = 0;
 
 char moneyReward[20]; 
 
@@ -235,6 +234,8 @@ struct Room newRoom(int id, int connd, struct User user)
 	rooms[countRoom].countQues = 0;
 	rooms[countRoom].roomStatus = WAIT;
 	rooms[countRoom].countHelp = 0;
+	rooms[countRoom].help5050count = 0;
+	rooms[countRoom].helpAdvisoryCount = 0;
 	countRoom++;
 	return rooms[countRoom-1];
 }
@@ -677,11 +678,11 @@ char *makeFullQues(Question question, int countQues)
 	bzero(content,600);
 	char str[1];
 	if (countQues == 0){
-		strcpy(content, "Quick question ");
+		strcpy(content, "Quick question");
 	} else {
-		strcpy(content, "Question :");
+		strcpy(content, "Question");
 	}
-	strcat(content, ":");
+	strcat(content, ": ");
 	strcat(content,question.content);
 	strcat(content, "\n");
 	strcat(content, question.choiceA);
@@ -1086,23 +1087,28 @@ char *helpAdvisoryProcess(Question question, int pos, struct sockaddr_in cliAddr
 char *helpCodeProcess(char messAcgument[], int pos, struct sockaddr_in cliAddr)
 {
 	int count = sess[pos].room.countQues;
-	Question question = sess[pos].room.questions[count -1];
+	int posRoom = findRoomById(sess[pos].room.id);
+	Question question = sess[pos].room.questions[count -1];	
+	printf("help5050count1 :::::::::::::::::::: %d\n",rooms[posRoom].help5050count );
+	printf("help5050count1 id :::::::::::::::::::: %d\n",rooms[posRoom].id);
 	if (strcmp(messAcgument, "1") == 0)
 	{
-		if (help5050count != 0) return C_HELP_NOT_OK;
+		if (rooms[posRoom].help5050count != 0) return C_HELP_NOT_OK;
 		else {
 			help5050Process(question);
-			help5050count++;
+			rooms[posRoom].help5050count++;
+			printf("help5050count2 :::::::::::::::::::: %d\n",rooms[posRoom].help5050count);
+			printf("help5050count2 id :::::::::::::::::::: %d\n",rooms[posRoom].id);
 			return C_HELP_50_OK;
 		}
 	}
 	else if (strcmp(messAcgument, "2") == 0)
 	{
-		if (helpAdvisoryCount != 0) return C_HELP_NOT_OK;
+		if (rooms[posRoom].helpAdvisoryCount != 0) return C_HELP_NOT_OK;
 		if (sess[pos].room.countUser <= 1) return C_HELP_NOT_OK;
 		else {
 			helpAdvisoryProcess(question, pos, cliAddr);
-			helpAdvisoryCount++;
+			rooms[posRoom].helpAdvisoryCount ++;
 			return C_HELP_ADVISORY_OK;
 		}
 	}
@@ -1136,7 +1142,7 @@ char *getHelpAdvise(int posRoom)
 	perB = 100*b/(a+b+c+d);
 	perC = 100*c/(a+b+c+d);
 	perD = 100*d/(a+b+c+d);
-	strcpy(content, "Gợi ý của khán giả cho người chơi chính như sau:");
+	strcpy(content, "SUGGESTIONS FROM OTHER PLAYERS FOR YOU:");
 	strcat(content, "\nA:");
 	strcpy(str, itoa(perA));
 	strcat(content, str);
@@ -1317,7 +1323,7 @@ char *process(char messCode[], char messAcgument[], struct sockaddr_in cliAddr, 
 	}
 
 	/********messcode is LEAV**********/
-	if (strcmp(messCode, LEAV) == 0 && pos != -1 && sessStatusIs(pos, WAIT_QUICH_QUES))
+	if (strcmp(messCode, LEAV) == 0 && pos != -1 && (sessStatusIs(pos, WAIT_QUICH_QUES)||sessStatusIs(pos, PLAYING_QUICK_QUES)))
 	{
 		return leavCodeProcess(pos, cliAddr);
 	}
@@ -1391,9 +1397,9 @@ void addListRoomTo(char message[])
 			strcat(message," ------------------------------\n");
 		}
 		strcat(message, "\n>JOIN or CREATE_NEW?(JOIN ID-CRRM ID)\n");
-		strcat(message, ">ENTER YOUR CHOOSE :");
+		strcat(message, ">ENTER YOUR CHOOSE: ");
 	} else {
-		strcat(message, "LET'S CREATE ROOM NOW :");
+		strcat(message, "LET'S CREATE ROOM NOW: ");
 	}
 }
 
@@ -1407,7 +1413,7 @@ void changeFull(char message[])
 	}
 	if (strcmp(message, C_YOU_WIN) == 0)
 	{
-		strcpy(message,"YOU ARE THE WINNER, REALLY GOOD!\n");
+		strcpy(message,"CONGRATULATION, YOU ARE THE MILLIONAIRE! YOUR REWARD IS 120.000.000 VND\n");
 		addListRoomTo(message);
 	}
 	if (strcmp(message, C_YOU_LOSE) == 0)
@@ -1517,13 +1523,14 @@ void changeFull(char message[])
 		strcpy(capcha, sessSignup[posCapchar].capcha);
 		strcat(message, "ENTER CAPCHA CODE : ");
 		strcat(message, capcha);
+		strcat(message, " ");
 	}
 	if (strcmp(message, C_HELP_50_OK) == 0)
 	{
 		strcpy(message, "REMAINING :\n");
 		strcat(message, resultFromHelp5050);
 		memset(resultFromHelp5050,'\0',(strlen(resultFromHelp5050)+1));
-		strcat(message, "\n>ENTER YOUR ANSWER :");
+		strcat(message, "\n>ENTER YOUR ANSWER : ");
 	}
 }
 

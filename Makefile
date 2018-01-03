@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. 
+CFLAGS=-I. -Wall -std=c99
 OBJ = server.o 
 OBJ2 = client.o
 %.o: %.c

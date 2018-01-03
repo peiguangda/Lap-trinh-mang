@@ -5,3 +5,4 @@ peiguangda 12345 1
 quangdai 12345 0
 tuquyet tuquyet 1
 vanquan 12345 1
+test1 test1 1
