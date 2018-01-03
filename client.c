@@ -69,6 +69,7 @@
 #define ACTIVE 1
 #define MAX 100
 
+//send request to server
 int request(int client_sock, char message[])
 {
 	if (send(client_sock, message, strlen(message), 0) > 0)
@@ -77,6 +78,7 @@ int request(int client_sock, char message[])
 	} else return 0;
 }
 
+//receive request
 int receive(int client_sock, char respond[])
 {
 	int bytes_received = recv(client_sock, respond, BUFF_SIZE -1, 0);
@@ -87,109 +89,111 @@ int receive(int client_sock, char respond[])
 	} else return 0;
 }
 
+//change the code from server to notification which users can understand
 char *makeFull(char respond[])
 {
-	if (strcmp(respond, C_IN_ROOM) == 0)
+	if (strcmp(respond, C_IN_ROOM) == 0) //user is in room
 	{
 		return "WAIT THE START COMMAND!";
 	}
-	if (strcmp(respond, C_FOUND_ID) == 0)
+	if (strcmp(respond, C_FOUND_ID) == 0) //found user id, now enter password
 	{
-		return "ENTER THE PASSWORD:";
+		return "ENTER THE PASSWORD: ";
 	} 
-	if (strcmp(respond, C_NOT_FOUND_ID) == 0)
+	if (strcmp(respond, C_NOT_FOUND_ID) == 0) //can't find user id, ask user to try again
 	{
-		return "USER INCORRECT, TRY AGAIN:";
+		return "USER INCORRECT, TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_NOT_FOUND_PASSWORD) == 0)
+	if (strcmp(respond, C_NOT_FOUND_PASSWORD) == 0) //password is wrong, ask user to try again
 	{
-		return "PASS INCORRECT, TRY AGAIN:";
+		return "PASS INCORRECT, TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_LOGOUT_OK) == 0)
+	if (strcmp(respond, C_LOGOUT_OK) == 0) //log out successful
 	{
-		return "LOGOUT SUCCESSFUL!";
+		return "LOGOUT SUCCESSFUL!\n>ENTER YOUR COMMAND : ";
 	}
-	if (strcmp(respond, C_LOGOUT_FAILS) == 0)
+	if (strcmp(respond, C_LOGOUT_FAILS) == 0) //log out fails
 	{
-		return "LOGOUT FAILS";
+		return "LOGOUT FAILS, TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_BLOCK) == 0)
+	if (strcmp(respond, C_BLOCK) == 0) //user has been blocked
 	{
-		return "USER BLOCKED, TRY AGAIN:";
+		return "USER BLOCKED, TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_NEW_USER) == 0)
+	if (strcmp(respond, C_NEW_USER) == 0) //when sign up an user, now user name is valid, ask user password to create a new
 	{
-		return "USER VALID, ENTER PASSWORD:";
+		return "USER VALID, ENTER PASSWORD: ";
 	}
-	if (strcmp(respond, C_SAME_USER) == 0)
+	if (strcmp(respond, C_SAME_USER) == 0) //user existed
 	{
-		return "USER EXITS, PLEASE CHOOSE OTHER NAME:";
+		return "USER EXITS, PLEASE CHOOSE OTHER NAME: ";
 	}
-	if (strcmp(respond, C_INCORRECT_PASS) == 0)
+	if (strcmp(respond, C_INCORRECT_PASS) == 0) //password is incorrect
 	{
-		return "PASS IS TOO SHORT, PLEASE ENTER PASS >= 5 CHARACTER:";
+		return "PASS IS TOO SHORT, PLEASE ENTER PASS >= 5 CHARACTER: ";
 	}
-	if (strcmp(respond, C_CORRECT_CODE) == 0)
+	if (strcmp(respond, C_CORRECT_CODE) == 0) //code which input is correct, user is created
 	{
-		return "USER IS CREATED, LOGIN NOW:";
+		return "USER IS CREATED, LOGIN NOW: ";
 	}
-	if (strcmp(respond, C_CRE_ROOM_SUC) == 0)
+	if (strcmp(respond, C_CRE_ROOM_SUC) == 0) //create room success
 	{
-		return "THE ROOM IS CREATED, COMMAND \"STAR\" TO START GAME:";
+		return "THE ROOM IS CREATED, COMMAND \"STAR\" TO START GAME: ";
 	}
-	if (strcmp(respond, C_A_QQ_INCORRECT) == 0)
+	if (strcmp(respond, C_A_QQ_INCORRECT) == 0) //answer quick quizz us incorrect or slower than other user
 	{
 		return "SORRY, YOU ANSWERED WRONG OR TOO SLOW!";
 	}
 	
-	if (strcmp(respond, C_CRE_ROOM_FAI) == 0)
+	if (strcmp(respond, C_CRE_ROOM_FAI) == 0) //room is existed, create room become fails
 	{
-		return "ROOM ID IS EXISTS! CHOOSE ANOTHER ID :";
+		return "ROOM ID IS EXISTS! CHOOSE ANOTHER ID: ";
 	}
-	if (strcmp(respond, C_OUT_ROOM) == 0)
+	if (strcmp(respond, C_OUT_ROOM) == 0) //can't join to a room
 	{
-		return "ID IS NOT EXISTS OR THE ROOM IS PLAYING!\n>TRY AGAIN :";
+		return "ID IS NOT EXISTS OR THE ROOM IS PLAYING!\n>TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_YOU_ARE_KEY) == 0)
+	if (strcmp(respond, C_YOU_ARE_KEY) == 0) //you are the master of the room
 	{
-		return "THE MAIN PLAYER LOSES, YOU BECOME THE MASTER OF THE ROOM!";
+		return "THE MAIN PLAYER LOSES, YOU BECOME THE MASTER OF THE ROOM!\n>ENTER YOUR COMMAND: ";
 	}
-	if (strcmp(respond, C_WAIT) == 0)
+	if (strcmp(respond, C_WAIT) == 0) //wait for other user start game
 	{
-		return "MAIN PLAYERS LOSE, WAITING FOR NEW OWNERS START COMMAND ROOM\nCOMMAND \"STAR\" TO START GAME :";
+		return "MAIN PLAYERS LOSE, WAITING FOR NEW OWNERS START COMMAND ROOM\nCOMMAND \"STAR\" TO START GAME: ";
 	}
-	if (strcmp(respond, C_LEAV_ROOM_FAI) == 0)
+	if (strcmp(respond, C_LEAV_ROOM_FAI) == 0) //can't leave room
 	{
 		return "CAN'T LEAVE THIS ROOM!";
 	}
-	if (strcmp(respond, C_HELP_NOT_OK) == 0)
+	if (strcmp(respond, C_HELP_NOT_OK) == 0) //can't use help feature 
 	{
-		return "CAN'T USE THIS FEATURE\n>CHOOSE OTHER HELP OR ANSWER NOW :";
+		return "CAN'T USE THIS FEATURE\n>CHOOSE OTHER HELP OR ANSWER NOW: ";
 	}
-	if (strcmp(respond, C_HELP_ADVISORY_OK) == 0)
+	if (strcmp(respond, C_HELP_ADVISORY_OK) == 0) //wait the advisory from other user
 	{
 		return "PLEASE WAIT!";
 	}
-	if (strcmp(respond, C_ALL_ROOM_INCORRECT_K) == 0)
+	if (strcmp(respond, C_ALL_ROOM_INCORRECT_K) == 0) //all members of this room answer incorrected
 	{
-		return "ALL OF MEMBER WRONG\n>TRY AGAIN, COMMAND \"STAR\" TO START GAME:";
+		return "ALL OF MEMBER WRONG\n>TRY AGAIN, COMMAND \"STAR\" TO START GAME: ";
 	}
-	if (strcmp(respond, C_ALL_ROOM_INCORRECT_M) == 0)
+	if (strcmp(respond, C_ALL_ROOM_INCORRECT_M) == 0) //all members of this room answer incorrected, ask user to wait
 	{
 		return "ALL OF MEMBER WRONG! PLEASE WAIT!\n";
 	}
-	if (strcmp(respond, C_LOG_SEQ_WRONG) == 0)
+	if (strcmp(respond, C_LOG_SEQ_WRONG) == 0) //wrong sequence
 	{
-		return "WRONG SEQUENCE!\n>TRY AGAIN :";
+		return "WRONG SEQUENCE!\n>TRY AGAIN: ";
 	}
-	if (strcmp(respond, C_NOT_ROOM_MASTER) == 0)
+	if (strcmp(respond, C_NOT_ROOM_MASTER) == 0) //the user isn't master
 	{
-		return "YOU ARE NOT ROOM MASTER!\n>TRY AGAIN :";
+		return "YOU ARE NOT ROOM MASTER!\n>TRY AGAIN: ";
 	}
 	else
 		return respond;
 }
 
+//menu of this game
 void menu()
 {
 	printf("*************************************************\n");
@@ -197,10 +201,10 @@ void menu()
 	printf("*******     WHO IS A MILLIONAIRE     ************\n");
 	printf("**********           ???          ***************\n");
 	printf("*************************************************\n\n");
-	printf(">ENTER YOUR COMMAND:");
+	printf(">ENTER YOUR COMMAND: ");
 }
 
-
+//main function
 int main(int argc, char const *argv[])
 {
 	int SERVER_PORT;
@@ -214,12 +218,15 @@ int main(int argc, char const *argv[])
 	SERVER_PORT = atoi(argv[2]);
 	strcpy(SERVER_ADDR, argv[1]);
 
+	//construct socket
 	client_sock = socket(AF_INET,SOCK_STREAM,0);
-	
+
+	//specify server address
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(SERVER_PORT);
 	server_addr.sin_addr.s_addr = inet_addr(SERVER_ADDR);
-	
+
+	//request to connect server
 	if(connect(client_sock, (struct sockaddr*)&server_addr, sizeof(struct sockaddr)) < 0){
 		printf("\nError!Can not connect to sever! Client exit imediately! ");
 		return 0;
@@ -233,14 +240,16 @@ int main(int argc, char const *argv[])
 		msg_len = strlen(buff);
 		if (msg_len == 1) break;
 		
-		//send message
+		//message send fails
 		if (!request(client_sock, buff)){
 			printf("message send fails\n");
 		}
-		
+
+		//message receive fails
 		if (!receive(client_sock, respond)){
 			printf("message receive fails\n");
 		} else {
+			//success
 			printf("*********************************\n");
 			printf(">%s", makeFull(respond));
 			while (strcmp(respond, C_IN_ROOM) == 0 || strcmp(respond, C_A_QQ_INCORRECT) == 0 
